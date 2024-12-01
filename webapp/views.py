@@ -55,9 +55,6 @@ def get_category_name(category_id):
     return categories.get(category_id, "Unknown")
 
 
-
-
-
 def page1(request):
     news = get_data()
     rank_data = MainNews.objects.filter(ranking__gte=1, ranking__lte=5).order_by('ranking')
@@ -87,13 +84,6 @@ def page1(request):
             'favorite_keywords_set': favorite_keywords_set
         }
         return render(request, 'webapp/page1.html', context)
-
-
-
-
-
-
-
 
 
 # 사용자 정의 폼 클래스
@@ -170,7 +160,6 @@ def signup_view(request):
                 login(request, user)
 
                 # 사용자 이름으로 빈 찜 목록 생성
-                UserFavoriteKeywords.objects.create(user=user, username=username, keyword='', title='', content='')
 
                 return redirect('page1')  # 회원가입 후 page1.html로 리디렉션
         else:
