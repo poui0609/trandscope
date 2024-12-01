@@ -1,0 +1,337 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f0ea;
+    color: #333;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 20px;
+    color: #555;
+    letter-spacing: 1px;
+}
+
+.title img {
+    width: 100%;
+    max-width: 800px;
+    margin: 10px 0;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 150px;
+}
+.menu-icon, .user-icon {
+    font-size: 40px;
+    cursor: pointer;
+}
+@media (max-width: 768px) {
+    .icons {
+        padding: 0 50px; 
+    }
+    .menu-icon, .user-icon {
+        font-size: 30px; 
+    }
+    h2 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .icons {
+        padding: 0 20px;
+    }
+    .menu-icon, .user-icon {
+        font-size: 20px; 
+    }
+    h2 {
+        font-size: 14px; 
+    }
+}
+.user-icon {
+    text-decoration: none;
+    color: inherit;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.news-item, .news-item2 {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+}
+@media (max-width: 768px) {
+    .news-item, .news-item2 {
+        padding: 15px;
+        height: 300px; 
+    }
+    .news-item h3, .news-item2 h3 {
+        font-size: 18px; 
+    }
+    .news-item p, .news-item2 p {
+        font-size: 14px; 
+    }
+    .news-item .description, .news-item2 .description {
+        font-size: 12px; 
+    }
+    .news-item img, .news-item2 .mirrored-img {
+        width: 100%; 
+        height: auto; 
+    }
+}
+
+
+@media (max-width: 480px) {
+    .news-item, .news-item2 {
+        padding: 10px;
+        height: 250px; 
+    }
+    .news-item h3, .news-item2 h3 {
+        font-size: 16px; 
+    }
+    .news-item p, .news-item2 p {
+        font-size: 12px; 
+    }
+    .news-item .description, .news-item2 .description {
+        font-size: 10px; 
+    }
+    .news-item img, .news-item2 .mirrored-img {
+        width: 100%; 
+        height: auto; 
+    }
+}
+
+.news-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+    position: relative;
+}
+
+.news-item2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    position: relative;
+}
+
+.news-item h3, .news-item2 h3 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.news-item h1, .news-item2 h1 {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 10px;
+} 
+
+.news-item p, .news-item2 p {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.news-item .description, .news-item2 .description {
+    font-size: 20px;
+    color: #666;
+}
+
+.news-item img, .mirrored-img {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 580px;
+    height: 130px;
+}
+
+.mirrored-img {
+    left: 10px;
+}
+
+.custom-hr {
+    width: 1000px;
+    border: none;
+    height: 2px;
+    background-color: black;
+    margin: 10px auto;
+}
+
+.custom-hr2, .custom-hr3 {
+    border: none;
+    background-color: black;
+    margin: 0 auto;
+}
+
+.custom-hr2 {
+    height: 2px;
+    width: 1190px;
+}
+
+.custom-hr3 {
+    height: 4px;
+    width: 1190px;
+    margin: 6px auto;
+}
+
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    overflow: hidden;
+    transition: 0.5s;
+    z-index: 1;
+    border-top-right-radius: 30px;
+    background-image: url('static/image/sidebar.png');
+    background-size: cover;
+    background-position: center;
+    box-sizing: border-box;
+    color: black; /* 텍스트 색상 */
+    font-family: Arial, sans-serif; /* 폰트 설정 */
+}
+
+.sidebar {
+    left: 0;
+    border-top-right-radius: 6%;
+}
+
+.user-sidebar {
+    right: 0;
+    border-top-left-radius: 60px;
+}
+
+.side-mainimage{
+    position: relative;
+    display: block;
+    top: 90px;
+    left: 55%;
+    transform: translateX(-50%);
+    margin-bottom: 10px; 
+}
+.user-sidebar img[src="static/image/MYINFORMATION.png"] {
+    position: relative; 
+    top: 75px; 
+    left: 20%;
+    margin-bottom: 10px; 
+}
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 36px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+main.hidden {
+    display: none;
+}
+.styled-box {
+    width: 50%;
+    height: 120px; 
+    background-color: #d3c0b8; 
+    border-radius: 8px; 
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+    border-radius: 50px;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    padding: 10px; 
+    text-align: center; 
+        }
+.styled-box-right {
+    right: 0; 
+
+}
+
+.styled-box-left {
+    left: 0; 
+}
+.category-container {
+    position: relative;
+    top: 120px; 
+    text-align: center;
+}
+.category-container {
+position: relative;
+top: 120px; /* Position the container below the image */
+padding-left: 250px; /* Move 250px away from the left */
+text-align: left; /* Align the text to the left */
+}
+
+.categories {
+margin-top: 20px; /* Space between the image and the categories */
+display: flex;
+flex-direction: column;
+align-items: flex-start; /* Align categories to the left */
+}
+
+.categories a {
+padding: 10px 0;
+text-decoration: none;
+font-size: 18px;
+color: #333;
+display: flex;
+align-items: center;
+justify-content: flex-start; /* Align content of each link to the left */
+transition: 0.3s;
+}
+
+.categories a:hover {
+color: #555;
+background-color: #ddd;
+border-radius: 8px;
+padding-left: 5px; /* Add slight indent on hover for a nice effect */
+}
+
+.categories a:hover {
+color: #555;
+background-color: #ddd;
+border-radius: 8px;
+padding-left: 5px; /* Add slight indent on hover for a nice effect */
+}
+.infom{
+text-align: left;
+margin-top: 10px;
+margin-left: 30%;
+
+}
+.star-btn {
+position: absolute;
+bottom: 10px;
+right: 10px;
+font-size: 24px;
+color: gray;
+background: none;
+border: none;
+cursor: pointer;
+transition: color 0.3s;
+}
+.star-btn.active {
+color: gold;
+}
