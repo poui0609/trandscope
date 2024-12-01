@@ -220,7 +220,7 @@
     <p class="description">{{ recent.content }}</p>
     {% endfor %}
 </div>
-<div id="favorite-text" class="hidden-text">
+<div id="favorite-text" class="hidden-text visible">
     {% for favorite in user.userfavoritekeywords_set.all %}
     <div class="styled-box">
         <!-- Button to toggle favorite status / 즐겨찾기 상태를 토글하는 버튼 -->
@@ -307,78 +307,77 @@
             }
         }
 
-        // 기본적으로 로그인 폼을 표시하도록 설정
+        // 기본적으로 찜한 키워드를 표시하도록 설정
         document.addEventListener("DOMContentLoaded", function() {
-            const loginForm = document.getElementById('login-form');
-            loginForm.style.display = 'block';
+            const favoriteText = document.getElementById('favorite-text');
+            favoriteText.classList.add('visible');
         });
 
-       function toggleStar(button, keyword) {
-    button.classList.toggle('active');
-    if (!button.classList.contains('active')) {
-        removeFavoriteKeyword(keyword);
-    }
-}
-
-function removeFavoriteKeyword(keyword) {
-    const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
-    if (!csrfTokenElement) {
-        console.error('CSRF token not found');
-        return;
-    }
-    const csrfToken = csrfTokenElement.value;
-
-    fetch('/remove_favorite_keyword/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': csrfToken
-        },
-        body: new URLSearchParams({ 'keyword': keyword })
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+        function toggleStar(button, keyword) {
+            button.classList.toggle('active');
+            if (!button.classList.contains('active')) {
+                removeFavoriteKeyword(keyword);
+            }
         }
-        return response.json();
-    }).then(data => {
-        if (data.status === 'success') {
-            console.log('Keyword removed successfully:', data);
-            // 필요한 경우 추가 작업 수행
-        } else {
-            console.error('Error removing keyword:', data.message);
+
+        function removeFavoriteKeyword(keyword) {
+            const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+            if (!csrfTokenElement) {
+                console.error('CSRF token not found');
+                return;
+            }
+            const csrfToken = csrfTokenElement.value;
+
+            fetch('/remove_favorite_keyword/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrfToken
+                },
+                body: new URLSearchParams({ 'keyword': keyword })
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }).then(data => {
+                if (data.status === 'success') {
+                    console.log('Keyword removed successfully:', data);
+                    // 필요한 경우 추가 작업 수행
+                } else {
+                    console.error('Error removing keyword:', data.message);
+                }
+            }).catch((error) => {
+                console.error('Fetch error:', error);
+            });
         }
-    }).catch((error) => {
-        console.error('Fetch error:', error);
-    });
-}
+
         function removeRecentKeyword(keyword) {
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // Submit form data / 폼 데이터 제출
-    fetch('/remove_recent_keyword/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': csrfToken
-        },
-        body: new URLSearchParams({ 'keyword': keyword })
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+            fetch('/remove_recent_keyword/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrfToken
+                },
+                body: new URLSearchParams({ 'keyword': keyword })
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }).then(data => {
+                if (data.status === 'success') {
+                    console.log('Recent keyword removed successfully:', data);
+                    // 필요한 경우 추가 작업 수행
+                } else {
+                    console.error('Error removing recent keyword:', data.message);
+                }
+            }).catch((error) => {
+                console.error('Fetch error:', error);
+            });
         }
-        return response.json();
-    }).then(data => {
-        if (data.status === 'success') {
-            console.log('Recent keyword removed successfully:', data);
-            // Perform additional tasks if needed / 필요한 경우 추가 작업 수행
-        } else {
-            console.error('Error removing recent keyword:', data.message);
-        }
-    }).catch((error) => {
-        console.error('Fetch error:', error);
-    });
-}
-
 
     </script>
 </body>
