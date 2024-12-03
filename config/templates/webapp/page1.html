@@ -126,7 +126,7 @@
 
             .news-item .description,
             .news-item2 .description {
-                font-size: 12px;
+                font-size: 10px;
             }
 
             .news-item img,
@@ -157,7 +157,7 @@
 
             .news-item .description,
             .news-item2 .description {
-                font-size: 10px;
+                font-size: 9px;
             }
 
             .news-item img,
@@ -308,7 +308,7 @@
 
         .styled-box {
             width: 50%;
-            height: 120px;
+            height: 80px;
             background-color: #d3c0b8;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -423,7 +423,7 @@
         <div class="icons">
             <div class="menu-icon" onclick="openSidebar()">☰</div>  <!--사이드바-->
             <h2>{{ current_date|date:"l, F d" }}</h2>  <!--요일-->
-            <div class="user-icon" onclick="redirectToUserPage()">👤</div> --user
+            <div class="user-icon" onclick="redirectToUserPage()">👤</div> <!--user-->
         </div>
         <hr class="custom-hr3"> <!--구분선-->
         <hr class="custom-hr2">
@@ -431,10 +431,10 @@
 
     <div id="mySidebar" class="sidebar"> <!-- 사이드바-->
         <span class="close-btn" onclick="closeSidebar()">×</span>
-        <img class="side-mainimage" src="{% static 'image/trendscope_logo.png' %}" alt="Main Sidebar Image">
+        <img class="side-mainimage" src="/static/image/trendscope_logo.png" alt="Main Sidebar Image" style="width: 75%; height: auto;">
         <div class="category-container">
             <div class="categories">
-                <img src="{% static 'image/newsthema.png' %}" style="margin: 10px; display: block; margin: 0 auto;">
+                <img src="{% static 'image/newsthema.png' %}" style="margin: 0; display: block; margin: 0 auto; width: 60%; height: auto; position: relative; top: -30px;">
                 <a href="{% url 'page2' 0 %}">
                     <img src="{% static 'image/menu.png' %}" alt="Politics Icon">
                     <h3>정치</h3>
@@ -473,14 +473,14 @@
                         <img src="{{ news.img_link }}" alt="Example Image" style="position: absolute; top: 0; right: 0; width: 45%; height: 80%; margin: 30px;">
                     {% endif %}
                     <div class="styled-box styled-box-left" onclick="redirectToPage3('{{ news.ranking }}', '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
-                        <h1>{{ news.ranking }}.{{ news.keywords }}</h1>
+                        <h1>{{ news.ranking }}. {{ news.keywords }}</h1> <!-- 여기서 .과 사이에 공백을 추가 -->
                     </div>
                     <div style="width: 45%; height: auto; word-wrap: break-word; padding: 10px;">
-                        <p>{{ news.title }}<hr></p>
+                            <p style="font-size: 32px;">{{ news.title }}<hr></p>
                         {% if user.is_authenticated %}
                             <button class="star-btn" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">★</button>
                         {% endif %}
-                        <p class="description">{{ news.text|truncatechars:150 }}</p>
+                        <p class="description" style="white-space: pre-wrap;">{{ news.text|truncatechars:150 }}</p>
                     </div>
                 </section>
             {% else %}
@@ -491,14 +491,14 @@
                         <img src="{{ news.img_link }}" alt="Example Image" style="position: absolute; top: 0; left: 0; width: 45%; height: 80%; margin: 30px;">
                     {% endif %}
                     <div class="styled-box styled-box-left" onclick="redirectToPage3('{{ news.ranking }}', '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
-                        <h1>{{ news.ranking }}.{{ news.keywords }}</h1>
+                        <h1>{{ news.ranking }}. {{ news.keywords }}</h1> <!-- 여기서 .과 사이에 공백을 추가 -->
                     </div>
-                    <div style="width: 45%; height: auto; word-wrap: break-word; padding: 10px;">
-                        <p>{{ news.title }}<hr></p>
+                    <div style="width: 48%; height: auto; word-wrap: break-word; padding: 10px;">
+                            <p style="font-size: 32px;">{{ news.title }}<hr></p>
                         {% if user.is_authenticated %}
                             <button class="star-btn" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">★</button>
                         {% endif %}
-                        <p class="description">{{ news.text|truncatechars:150 }}</p>
+                        <p class="description" style="white-space: pre-wrap;">{{ news.text|truncatechars:150 }}</p>
                     </div>
                 </section>
             {% endif %}

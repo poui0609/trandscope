@@ -94,6 +94,7 @@
             margin: 20px auto;
             border: 1px solid #6d5741;
         }
+
         .keyword-container .keyword-section {
             color: #6d5741;
             font-family: Arial, sans-serif, bold;
@@ -101,11 +102,18 @@
             text-align: center;
             padding: 10px;
             cursor: pointer;
+            transition: all 0.3s ease; /* 부드러운 전환 효과 추가 */
         }
-        .keyword-container .favorite-keywords {
-            background-color: #f2e2cd;
-            border-left: 2px solid #6d5741;
+
+        .keyword-container .keyword-section.active {
+            background-color: #f2e2cd; /* 클릭된 키워드 배경 색상 */
+            <!--padding: 20px; /* 클릭된 키워드의 패딩 크기 증가 */-->
         }
+
+        .keyword-container .favorite-keywords.active {
+            background-color: #f2e2cd; /* 찜한 키워드 배경 색상 변경 */
+        }
+
         .hidden-text {
             display: none;
             margin-top: 30px;
@@ -168,15 +176,14 @@
             <a href="{% url 'logout' %}" class="toggle-button">Logout</a>
         {% endif %}
         <div class="title">
-            <img src="static/image/MYINFORMATION.png" alt="Title Image">
+        <img src="static/image/MYINFORMATION.png" alt="Title Image" width="650">
         </div>
         <hr class="custom-hr2">
         <hr class="custom-hr3">
         <div class="icons">
             {% if user.is_authenticated %}
-                <h4>{{ user.first_name }} {{user.last_name}}<br>ID: {{ user.username}}<h4/>
-                <img src="static/image/user-image.png" alt="User Image">
-            {% else %}
+                <h4>{{ user.first_name }} {{user.last_name}}<br>ID: {{ user.username}}</h4>
+                <img src="static/image/user-image.png" alt="User Image" style="width: 40px; height: auto;">            {% else %}
                 <br><h4>로그인 해주세요!</h4><br>
             {% endif %}
         </div>
@@ -184,19 +191,19 @@
         <hr class="custom-hr2">
         {% if user.is_authenticated %}
         <div class="keyword-container">
-            <div class="keyword-section" onclick="showText('recent-text')">
+            <div class="keyword-section" onclick="showText('recent-text'); toggleSection(this)">
                 <h2>최근 키워드</h2>
             </div>
-            <div class="keyword-section favorite-keywords" onclick="showText('favorite-text')">
+            <div class="keyword-section favorite-keywords" onclick="showText('favorite-text'); toggleSection(this)">
                 <h2>찜한 키워드</h2>
             </div>
         </div>
         {% else %}
         <div class="keyword-container">
-            <div class="keyword-section" onclick="toggleSignup()">
+            <div class="keyword-section" onclick="toggleSignup(); toggleSection(this)">
                 <h2>회원가입</h2>
             </div>
-            <div class="keyword-section favorite-keywords" onclick="toggleLogin()">
+            <div class="keyword-section favorite-keywords" onclick="toggleLogin(); toggleSection(this)">
                 <h2>로그인</h2>
             </div>
         </div>
@@ -273,6 +280,17 @@
 {% endif %}
     </main>
     <script>
+        function toggleSection(element) {
+            // 모든 .keyword-section에서 active 클래스를 제거
+            const sections = document.querySelectorAll('.keyword-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // 클릭한 요소에만 active 클래스를 추가
+            element.classList.add('active');
+        }
+
         function showText(elementId) {
             const element = document.getElementById(elementId);
             if (element.classList.contains('visible')) {
