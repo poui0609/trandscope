@@ -101,10 +101,12 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            height: 400px;
+            min-height: 150px;        /* 최소 높이 설정 */
+            height: auto;             /* 텍스트에 따라 높이가 자동 조정됨 */
             position: relative;
             overflow: hidden;
         }
+
 
         @media (max-width: 768px) {
 
@@ -247,24 +249,84 @@
             margin: 6px auto;
         }
 
-       .sidebar {
+
+       /* 사이드바 스타일 */
+        .sidebar {
             height: 100%;
             width: 0;
             position: fixed;
             top: 0;
+            left: 0;
             overflow: hidden;
             transition: 0.5s;
             z-index: 1;
-            border-top-right-radius: 30px;
-            background-image: url("{%static 'image/sidebar.png'%}");
+            background-color: #c9c1bb; /* 배경 색상으로 변경 (예시: 어두운 회색) */
             background-size: cover;
             background-position: center;
+            border-top-right-radius: 20px;
             box-sizing: border-box;
             color: black;
-            /* 텍스트 색상 */
             font-family: Arial, sans-serif;
-            /* 폰트 설정 */
+            padding: 10px;
         }
+
+        /* 사이드바 열릴 때 */
+        .sidebar.open {
+            width: 60%; /* 사이드바 너비 */
+        }
+
+       /* 사이드바 내부 이미지 */
+        /* 사이드바 내부 이미지 */
+        .sidebar .side-mainimage {
+            width: 96%;          /* 이미지 너비 설정 */
+            height: auto;        /* 이미지 비율에 맞게 높이 자동 조정 */
+            display: block;      /* 블록 요소로 변경하여 마진이 적용될 수 있도록 함 */
+            position: relative;  /* 위치 설정 (상대적 위치 지정) */
+            left: 50%;           /* 왼쪽에서 20% 만큼 위치 */
+            top: 0%;           /* 상단 여백 추가 (optional) */
+        }
+
+
+
+        /* 메뉴 항목들 */
+        .sidebar .category-container {
+            padding-top: 30px;
+        }
+
+        /* 메뉴 항목들 스타일 */
+        .sidebar .categories a {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            margin: 5px 0;  /* 위 아래 간격을 5px로 줄임 */
+
+            font-size: 16px;
+        }
+
+        /* 아이콘 이미지 */
+        .sidebar .categories a img {
+            width: 30px;
+            margin-right: 10px;
+        }
+
+        /* 메뉴 항목 클릭 시 */
+        .sidebar .categories a:hover {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+        }
+
+        /* 닫기 버튼 스타일 */
+        .sidebar .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 36px;
+            color: white;
+            cursor: pointer;
+        }
+
 
 
         .sidebar {
@@ -285,6 +347,17 @@
             transform: translateX(-50%);
             margin-bottom: 10px;
         }
+        /* 새로운 스타일로 정의된 클래스 */
+        .sidebar .newsthema-image {
+            margin: 8px 0;
+            display: block;
+            width: 50%;          /* 이미지 너비 설정 */
+            height: auto;        /* 이미지 비율에 맞춰 높이 자동 설정 */
+            position: relative;  /* 상대적인 위치 설정 */
+            top: -50%;          /* 상단으로 30px만큼 위치 이동 */
+            left: 25%
+        }
+
 
         .user-sidebar img[src="{%static 'image/myinfomation.png'%}"] {
             position: relative;
@@ -350,7 +423,7 @@
         }
 
         .categories {
-            margin-top: 20px;
+            margin-top: 15px;
             /* Space between the image and the categories */
             display: flex;
             flex-direction: column;
@@ -429,39 +502,45 @@
         <hr class="custom-hr2">
     </header>
 
-    <div id="mySidebar" class="sidebar"> <!-- 사이드바-->
-        <span class="close-btn" onclick="closeSidebar()">×</span>
-        <img class="side-mainimage" src="/static/image/trendscope_logo.png" alt="Main Sidebar Image" style="width: 75%; height: auto;">
-        <div class="category-container">
-            <div class="categories">
-                <img src="{% static 'image/newsthema.png' %}" style="margin: 0; display: block; margin: 0 auto; width: 60%; height: auto; position: relative; top: -30px;">
-                <a href="{% url 'page2' 0 %}">
-                    <img src="{% static 'image/menu.png' %}" alt="Politics Icon">
-                    <h3>정치</h3>
-                </a>
-                <a href="{% url 'page2' 1 %}">
-                    <img src="{% static 'image/menu.png' %}" alt="Economy Icon">
-                    <h3>경제</h3>
-                </a>
-                <a href="{% url 'page2' 2 %}">
-                    <img src="{% static 'image/menu.png' %}" alt="Society Icon">
-                    <h3>사회</h3>
-                </a>
-                <a href="{% url 'page2' 3 %}">
-                    <img src="{% static 'image/menu.png' %}" alt="Lifestyle Icon">
-                    <h3>생활/문화</h3>
-                </a>
-                <a href="{% url 'page2' 4 %}">
-                    <img src="{% static 'image/menu.png' %}" alt="IT Icon">
-                    <h3>세계</h3>
-                </a>
-                <a href="{% url 'page2' 5 %}">
-                    <img src="{% static 'image/menu.png' %}" alt="others">
-                    <h3>IT/과학</h3>
-                </a>
-            </div>
+<!-- 사이드바 -->
+<div id="mySidebar" class="sidebar">
+    <span class="close-btn" onclick="closeSidebar()">×</span>
+    <div class="category-container">
+    <img class="side-mainimage" src="{% static 'image/trendscope_logo.png' %}" alt="Main Sidebar Image">
+        <div class="categories">
+            <hr class="custom-hr2"> <!-- 구분선-->
+            <hr class="custom-hr3">
+            <img src="{% static 'image/newsthema.png' %}" class="newsthema-image" alt="Newsthema Image">
+            <hr class="custom-hr2"> <!-- 구분선-->
+            <hr class="custom-hr3">
+            <a href="{% url 'page2' 0 %}">
+                <img src="{% static 'image/menu.png' %}" alt="Politics Icon">
+                <h3>정치</h3>
+            </a>
+            <a href="{% url 'page2' 1 %}">
+                <img src="{% static 'image/menu.png' %}" alt="Economy Icon">
+                <h3>경제</h3>
+            </a>
+            <a href="{% url 'page2' 2 %}">
+                <img src="{% static 'image/menu.png' %}" alt="Society Icon">
+                <h3>사회</h3>
+            </a>
+            <a href="{% url 'page2' 3 %}">
+                <img src="{% static 'image/menu.png' %}" alt="Lifestyle Icon">
+                <h3>생활/문화</h3>
+            </a>
+            <a href="{% url 'page2' 4 %}">
+                <img src="{% static 'image/menu.png' %}" alt="IT Icon">
+                <h3>세계</h3>
+            </a>
+            <a href="{% url 'page2' 5 %}">
+                <img src="{% static 'image/menu.png' %}" alt="others">
+                <h3>IT/과학</h3>
+            </a>
         </div>
     </div>
+</div>
+
 
     <main>
         {% for news in news_data %}
@@ -665,16 +744,15 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-    function openSidebar() {
-        document.getElementById("mySidebar").style.width = "60%";
-        document.getElementById("userSidebar").style.width = "0";
-        document.querySelector('main').classList.add('hidden');
-    }
+// 사이드바 열기
+function openSidebar() {
+    document.getElementById("mySidebar").classList.add("open");
+}
 
-    function closeSidebar() {
-        document.getElementById("mySidebar").style.width = "0";
-        document.querySelector('main').classList.remove('hidden');
-    }
+// 사이드바 닫기
+function closeSidebar() {
+    document.getElementById("mySidebar").classList.remove("open");
+}
 
     function redirectToUserPage() {
         window.location.href = "/userPage.html";
