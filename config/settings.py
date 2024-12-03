@@ -30,7 +30,7 @@ SECRET_KEY = mysettings.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['trandscope.onrender.com']
+ALLOWED_HOSTS = ['trandscope.onrender.com', 'localhost']
 
 
 # Application definition
