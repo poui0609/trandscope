@@ -44,23 +44,23 @@
             width: 1180px;
             margin: 0 auto;
         }
-                
+
         .menu-icon, .user-icon {
-            font-size: 49px; 
+            font-size: 49px;
             cursor: pointer;
         }
 
         .menu-icon img{
-            width: 44px;  
-            height: 50px; 
-            object-fit: contain; 
+            width: 44px;
+            height: 50px;
+            object-fit: contain;
         }
         @media (max-width: 768px) {
             .icons {
-                padding: 0 50px; 
+                padding: 0 50px;
             }
             .menu-icon, .user-icon {
-                font-size: 30px; 
+                font-size: 30px;
             }
             h2 {
                 font-size: 18px;
@@ -72,10 +72,10 @@
                 padding: 0 20px;
             }
             .menu-icon, .user-icon {
-                font-size: 20px; 
+                font-size: 20px;
             }
             h2 {
-                font-size: 14px; 
+                font-size: 14px;
             }
         }
         .user-icon {
@@ -105,38 +105,38 @@
                 height: 350px;
             }
             .news-item h3, .news-item2 h3 {
-                font-size: 18px; 
+                font-size: 18px;
             }
             .news-item p, .news-item2 p {
-                font-size: 14px; 
+                font-size: 14px;
             }
             .news-item .description, .news-item2 .description {
                 font-size: 12px;
             }
             .news-item img, .news-item2 .mirrored-img {
-                width: 100%; 
-                height: auto; 
+                width: 100%;
+                height: auto;
             }
         }
 
-    
+
         @media (max-width: 480px) {
             .news-item, .news-item2 {
                 padding: 10px;
-                height: 250px; 
+                height: 250px;
             }
             .news-item h3, .news-item2 h3 {
-                font-size: 16px; 
+                font-size: 16px;
             }
             .news-item p, .news-item2 p {
-                font-size: 12px; 
+                font-size: 12px;
             }
             .news-item .description, .news-item2 .description {
-                font-size: 10px; 
+                font-size: 10px;
             }
             .news-item img, .news-item2 .mirrored-img {
-                width: 100%; 
-                height: auto; 
+                width: 100%;
+                height: auto;
             }
         }
 
@@ -152,19 +152,19 @@
             font-size: 30px;
             font-weight: bold;
             margin-bottom: 10px;
-           
+
         }
         .news-item h1{
             font-size: 35px;
             font-weight: bold;
             margin-bottom: 10px;
-        } 
+        }
 
         .news-item p{
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
-           
+
         }
 
         .description{
@@ -223,12 +223,12 @@
         }
 
         .styled-box-right {
-            right: 0; 
-        
+            right: 0;
+
         }
 
         .styled-box-left {
-            left: 0; 
+            left: 0;
         }
         .star-btn {
         position: absolute;
@@ -257,8 +257,8 @@
             <img src="{%static 'image/trandscopenews_LOGO.png'%}" alt="Title Image">
         </div>
         <hr class="custom-hr2">
-        <hr class="custom-hr3"> 
-       
+        <hr class="custom-hr3">
+
         <div class="icons">
             <div class="menu-icon"><img src="{%static 'image/home.png'%}"onclick="window.location.href='{% url 'page1' %}'" ></div>
             <h2>{{ current_date }}</h2>
@@ -292,8 +292,10 @@
                     </a><br>
                 {% endfor %}
                 </div>
-
-                <button class="star-btn" onclick="toggleStar(this)">★</button>
+                <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
+                                onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                            ★
+                        </button>
                 <div class="article-content">
                 </div>
             </section>
@@ -303,11 +305,11 @@
 </main>
 
 
-   
-    
+
+
     <script>
         function openSidebar() {
-        document.getElementById("userSidebar").style.width = "0"; 
+        document.getElementById("userSidebar").style.width = "0";
         document.querySelector('main').classList.add('hidden');
     }
 
@@ -316,15 +318,122 @@
     }
     function redirectToUserPage() {
 
-    window.location.href = "/userPage.html"; 
+    window.location.href = "/userPage.html";
     }
     function redirectToPage1() {
     window.location.href = "page1.html";
     }
-    function toggleStar(button) {
-            button.classList.toggle('active');
-        }
+    function toggleStar(button, keyword, title, content, link) {
+    if (button.classList.contains('active')) {
+        removeFavoriteKeyword(keyword);
+        button.classList.remove('active');  // 비활성화 상태로 변경
+        localStorage.setItem(keyword, 'false');  // localStorage에 비활성 상태 저장
+    } else {
+        addFavoriteKeyword(keyword, title, content, link);
+        button.classList.add('active');  // 활성화 상태로 변경
+        localStorage.setItem(keyword, 'true');  // localStorage에 활성 상태 저장
+    }
+}
 
+function addFavoriteKeyword(keyword, title, content, link) {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const keywordInput = document.getElementById('favorite-keyword');
+    const titleInput = document.getElementById('favorite-title');
+    const contentInput = document.getElementById('favorite-content');
+    const urlInput = document.getElementById('favorite-url');
+
+    // 모든 필드가 존재하는지 확인
+    if (!keywordInput || !titleInput || !contentInput || !urlInput) {
+        console.error('One or more form fields are missing');
+        return;
+    }
+
+    // 폼 데이터 설정
+    keywordInput.value = keyword;
+    titleInput.value = title;
+    contentInput.value = content;
+    urlInput.value = link;
+
+    // 요청 데이터를 로그로 출력
+    console.log('Sending data:', {
+        keyword: keyword,
+        title: title,
+        content: content,
+        url: link
+    });
+
+    // 폼 제출
+    fetch('/add_favorite_keyword/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken
+        },
+        body: new URLSearchParams(new FormData(document.getElementById('favorite-keyword-form')))
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    }).then(data => {
+        if (data.status === 'success') {
+            console.log('Keyword added successfully:', data);
+        } else if (data.status === 'error' && data.message === 'Keyword already exists') {
+            console.log('Keyword already exists:', data);
+        } else {
+            console.error('Error adding keyword:', data.message);
+        }
+    }).catch((error) => {
+        console.error('Fetch error:', error);
+    });
+}
+
+
+
+function removeFavoriteKeyword(keyword) {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const form = document.getElementById('remove-favorite-keyword-form');
+
+    // Set form data / 폼 데이터 설정
+    document.getElementById('remove-favorite-keyword').value = keyword;
+
+    // Submit form / 폼 제출
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken
+        },
+        body: new URLSearchParams(new FormData(form))
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    }).then(data => {
+        if (data.status === 'success') {
+            console.log('Keyword removed successfully:', data);
+        } else {
+            console.error('Error removing keyword:', data.message);
+        }
+    }).catch((error) => {
+        console.error('Fetch error:', error);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const favoriteKeywordsSet = new Set(JSON.parse('{{ favorite_keywords_set|escapejs }}'));
+
+    document.querySelectorAll('.news-item').forEach(function(item) {
+        const keyword = item.getAttribute('data-news-keyword');
+        if (favoriteKeywordsSet.has(keyword)) {
+            const starButton = item.querySelector('.star-btn');
+            if (starButton) {
+                starButton.classList.add('active'); // Activate star button on page load / 페이지 로드 시 별 버튼 활성화
+            }
+        }
+    });
+});
     </script>
 </body>
 </html>
