@@ -136,6 +136,8 @@
             padding-top: 30px;
             text-align: left;
             display: flex;
+            cursor: pointer;  /* 마우스가 <div> 위에 있을 때 커서가 손가락 모양으로 바뀌게 설정 */
+
         }
         .styled-box .description {
             margin-top: 10px;
@@ -210,192 +212,210 @@
         {% endif %}
     </header>
     <main>
-        {% if login_error %}
-<div class="error">{{ login_error }}</div>
-{% endif %}
-{% if signup_error %}
-<div class="error">{{ signup_error }}</div>
-{% endif %}
-{% if user.is_authenticated %}
-<div id="recent-text" class="hidden-text">
-    {% for recent in user.recentkeyword_set.all %}
-    <div class="styled-box" onclick="window.location.href='{{ recent.url }}'">
-        <h2>{{ recent.keyword }}</h2>
-    </div>
-    <h1>{{ recent.title }}</h1>
-    <hr style="width: 40%;">
-    <p class="description">{{ recent.content }}</p>
-    {% endfor %}
-</div>
-<div id="favorite-text" class="hidden-text visible">
-    {% for favorite in user.userfavoritekeywords_set.all %}
-    <div class="styled-box">
-        <!-- Button to toggle favorite status / 즐겨찾기 상태를 토글하는 버튼 -->
-        <button class="star-btn active" onclick="toggleStar(this, '{{ favorite.keyword|escapejs }}')">★</button>
-        <h2 onclick="window.location.href='{{ favorite.url }}'" style="cursor: pointer;">{{ favorite.keyword }}
-    </div>
-    <h1>{{ favorite.title }}</h1>
-    <hr style="width: 40%;">
-    <p class="description">{{ favorite.content }}</p>
-    {% endfor %}
-</div>
-
-{% else %}
-<div id="signup-form" class="signup-form">
-    <form method="post" action="{% url 'signup' %}">
-        {% csrf_token %}
-        <label for="username">아이디&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password1">비밀번호&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-        <input type="password" id="password1" name="password1" required>
-        <br>
-        <label for="password2">비밀번호 확인&nbsp</label>
-        <input type="password" id="password2" name="password2" required>
-        <br>
-        <label for="email">이메일&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        <label for="first_name">성&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-        <input type="text" id="first_name" name="first_name" required>
-        <br>
-        <label for="last_name">이름&nbsp&nbsp&nbsp&nbsp</label>
-        <input type="text" id="last_name" name="last_name" required>
-        <br>
-        <input type="submit" value="가입하기">
-    </form>
-</div>
-<div id="login-form" class="login-form">
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <label for="login-username">아이디&nbsp&nbsp</label>
-        <input type="text" id="login-username" name="username" required>
-        <br>
-        <label for="login-password">비밀번호</label>
-        <input type="password" id="login-password" name="password" required>
-        <br>
-        <input type="submit" value="로그인">
-    </form>
-</div>
-{% endif %}
+    {% if login_error %}
+        <div class="error">{{ login_error }}</div>
+    {% endif %}
+    {% if signup_error %}
+        <div class="error">{{ signup_error }}</div>
+    {% endif %}
+    {% if user.is_authenticated %}
+        <div id="recent-text" class="hidden-text">
+            {% for recent in user.recentkeyword_set.all %}
+                <div class="styled-box" onclick="window.location.href='{{ recent.url }}'">
+                    <h2>{{ recent.keyword }}</h2>
+                </div>
+                <h1>{{ recent.title }}</h1>
+                <hr style="width: 40%;">
+                <p class="description">{{ recent.content }}</p>
+            {% endfor %}
+        </div>
+        <div id="favorite-text" class="hidden-text visible">
+            {% for favorite in user.userfavoritekeywords_set.all %}
+                <div class="styled-box">
+                    <!-- Button to toggle favorite status / 즐겨찾기 상태를 토글하는 버튼 -->
+                    <button class="star-btn active" onclick="toggleStar(this, '{{ favorite.keyword|escapejs }}')">★</button>
+                    <h2 onclick="window.location.href='{{ favorite.url }}'" style="cursor: pointer;">{{ favorite.keyword }}</h2>
+                </div>
+                <h1>{{ favorite.title }}</h1>
+                <hr style="width: 40%;">
+                <p class="description">{{ favorite.content }}</p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div id="signup-form" class="signup-form">
+            <form method="post" action="{% url 'signup' %}">
+                {% csrf_token %}
+                <label for="username">아이디&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input type="text" id="username" name="username" required>
+                <br>
+                <label for="password1">비밀번호&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input type="password" id="password1" name="password1" required>
+                <br>
+                <label for="password2">비밀번호 확인&nbsp;</label>
+                <input type="password" id="password2" name="password2" required>
+                <br>
+                <label for="email">이메일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input type="email" id="email" name="email" required>
+                <br>
+                <label for="first_name">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input type="text" id="first_name" name="first_name" required>
+                <br>
+                <label for="last_name">이름&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input type="text" id="last_name" name="last_name" required>
+                <br>
+                <input type="submit" value="가입하기">
+            </form>
+        </div>
+        <div id="login-form" class="login-form">
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <label for="login-username">아이디&nbsp;&nbsp;</label>
+                <input type="text" id="login-username" name="username" required>
+                <br>
+                <label for="login-password">비밀번호&nbsp;</label>
+                <input type="password" id="login-password" name="password" required>
+                <br>
+                <input type="submit" value="로그인">
+            </form>
+        </div>
+    {% endif %}
     </main>
+
     <script>
-        function toggleSection(element) {
-            // 모든 .keyword-section에서 active 클래스를 제거
-            const sections = document.querySelectorAll('.keyword-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+    // 페이지 로드 시, 'favorite-keywords' 섹션에 'active' 클래스 추가
+    const favoriteSection = document.querySelector('.keyword-section.favorite-keywords');
+    if (favoriteSection) {
+        favoriteSection.classList.add('active');
+        // 'favorite-text'를 보이도록 설정
+        showText('favorite-text');
+    }
+    });
 
-            // 클릭한 요소에만 active 클래스를 추가
-            element.classList.add('active');
-        }
-
-        function showText(elementId) {
-            const element = document.getElementById(elementId);
-            if (element.classList.contains('visible')) {
-                element.classList.remove('visible');
-            } else {
-                document.querySelectorAll('.hidden-text').forEach(text => {
-                    text.classList.remove('visible');
-                });
-                element.classList.add('visible');
-            }
-        }
-
-        function toggleSignup() {
-            const signupForm = document.getElementById('signup-form');
-            const loginForm = document.getElementById('login-form');
-            if (signupForm.style.display === 'none' || signupForm.style.display === '') {
-                signupForm.style.display = 'block';
-                loginForm.style.display = 'none';
-            } else {
-                signupForm.style.display = 'none';
-            }
-        }
-
-        function toggleLogin() {
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            if (loginForm.style.display === 'none' || loginForm.style.display === '') {
-                loginForm.style.display = 'block';
-                signupForm.style.display = 'none';
-            } else {
-                loginForm.style.display = 'none';
-            }
-        }
-
-        // 기본적으로 찜한 키워드를 표시하도록 설정
-        document.addEventListener("DOMContentLoaded", function() {
-            const favoriteText = document.getElementById('favorite-text');
-            favoriteText.classList.add('visible');
+    function toggleSection(element) {
+        // 모든 .keyword-section에서 active 클래스를 제거
+        const sections = document.querySelectorAll('.keyword-section');
+        sections.forEach(section => {
+            section.classList.remove('active');
         });
 
-        function toggleStar(button, keyword) {
-            button.classList.toggle('active');
-            if (!button.classList.contains('active')) {
-                removeFavoriteKeyword(keyword);
-            }
-        }
+        // 클릭한 요소에만 active 클래스를 추가
+        element.classList.add('active');
+    }
 
-        function removeFavoriteKeyword(keyword) {
-            const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
-            if (!csrfTokenElement) {
-                console.error('CSRF token not found');
-                return;
-            }
-            const csrfToken = csrfTokenElement.value;
-
-            fetch('/remove_favorite_keyword/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': csrfToken
-                },
-                body: new URLSearchParams({ 'keyword': keyword })
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            }).then(data => {
-                if (data.status === 'success') {
-                    console.log('Keyword removed successfully:', data);
-                    // 필요한 경우 추가 작업 수행
-                } else {
-                    console.error('Error removing keyword:', data.message);
-                }
-            }).catch((error) => {
-                console.error('Fetch error:', error);
+    function showText(elementId) {
+        const element = document.getElementById(elementId);
+        if (element.classList.contains('visible')) {
+            element.classList.remove('visible');
+        } else {
+            document.querySelectorAll('.hidden-text').forEach(text => {
+                text.classList.remove('visible');
             });
+            element.classList.add('visible');
         }
+    }
 
-        function removeRecentKeyword(keyword) {
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-            fetch('/remove_recent_keyword/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': csrfToken
-                },
-                body: new URLSearchParams({ 'keyword': keyword })
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            }).then(data => {
-                if (data.status === 'success') {
-                    console.log('Recent keyword removed successfully:', data);
-                    // 필요한 경우 추가 작업 수행
-                } else {
-                    console.error('Error removing recent keyword:', data.message);
-                }
-            }).catch((error) => {
-                console.error('Fetch error:', error);
-            });
+    function toggleSignup() {
+        const signupForm = document.getElementById('signup-form');
+        const loginForm = document.getElementById('login-form');
+        if (signupForm.style.display === 'none' || signupForm.style.display === '') {
+            signupForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        } else {
+            signupForm.style.display = 'none';
         }
+    }
+
+    function toggleLogin() {
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        if (loginForm.style.display === 'none' || loginForm.style.display === '') {
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+        } else {
+            loginForm.style.display = 'none';
+        }
+    }
+
+    // 기본적으로 찜한 키워드를 표시하도록 설정
+    document.addEventListener("DOMContentLoaded", function() {
+        const favoriteText = document.getElementById('favorite-text');
+        favoriteText.classList.add('visible');
+    });
+
+    // star 버튼 클릭 시 상태 토글 및 저장
+    function toggleStar(button, keyword, title, content, link) {
+        if (button.classList.contains('active')) {
+            removeFavoriteKeyword(keyword);
+            button.classList.remove('active');  // 비활성화 상태로 변경
+            localStorage.setItem(keyword, 'false');  // localStorage에 비활성 상태 저장
+        } else {
+            addFavoriteKeyword(keyword, title, content, link);
+            button.classList.add('active');  // 활성화 상태로 변경
+            localStorage.setItem(keyword, 'true');  // localStorage에 활성 상태 저장
+        }
+    }
+
+
+    function removeFavoriteKeyword(keyword) {
+        const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+        if (!csrfTokenElement) {
+            console.error('CSRF token not found');
+            return;
+        }
+        const csrfToken = csrfTokenElement.value;
+
+        fetch('/remove_favorite_keyword/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrfToken
+            },
+            body: new URLSearchParams({ 'keyword': keyword })
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        }).then(data => {
+            if (data.status === 'success') {
+                console.log('Keyword removed successfully:', data);
+                // 필요한 경우 추가 작업 수행
+            } else {
+                console.error('Error removing keyword:', data.message);
+            }
+        }).catch((error) => {
+            console.error('Fetch error:', error);
+        });
+    }
+
+    function removeRecentKeyword(keyword) {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch('/remove_recent_keyword/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrfToken
+            },
+            body: new URLSearchParams({ 'keyword': keyword })
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        }).then(data => {
+            if (data.status === 'success') {
+                console.log('Recent keyword removed successfully:', data);
+                // 필요한 경우 추가 작업 수행
+            } else {
+                console.error('Error removing recent keyword:', data.message);
+            }
+        }).catch((error) => {
+            console.error('Fetch error:', error);
+        });
+    }
 
     </script>
 </body>
