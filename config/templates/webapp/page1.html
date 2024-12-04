@@ -561,10 +561,10 @@
                     <div style="width: 45%; height: auto; word-wrap: break-word; padding: 10px;">
                             <p style="font-size: 32px;">{{ news.title }}<hr></p>
                         {% if user.is_authenticated %}
-<button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
-        onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
-    ★
-</button>
+                            <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
+                                 onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                                ★
+                            </button>
                         {% endif %}
                         <p class="description" style="white-space: pre-wrap;">{{ news.text|truncatechars:150 }}</p>
                     </div>
