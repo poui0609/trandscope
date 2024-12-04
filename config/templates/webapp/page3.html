@@ -102,7 +102,7 @@
         @media (max-width: 768px) {
             .news-item, .news-item2 {
                 padding: 15px;
-                height: 300px; 
+                height: 350px;
             }
             .news-item h3, .news-item2 h3 {
                 font-size: 18px; 
@@ -143,7 +143,7 @@
         .news-item {
             display: flex;
             flex-direction: column;
-            align-items: flex-end; 
+            align-items: flex-end;
             position: relative;
         }
 
@@ -207,21 +207,21 @@
             margin: 6px auto;
         }
 
-      
         .styled-box {
             width: 50%;
-            height: 120px; 
-            background-color: #d3c0b8; 
-            border-radius: 8px; 
+            height: 80px;
+            background-color: #d3c0b8;
+            border-radius: 8px;
             margin-bottom: 10px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             border-radius: 50px;
             display: flex;
-            align-items: center; 
-            justify-content: center; 
-            padding: 10px; 
-            text-align: center; 
-                }
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            text-align: center;
+        }
+
         .styled-box-right {
             right: 0; 
         
@@ -245,6 +245,40 @@
         color: gold;
     }
 
+        /* 이미지 갤러리 컨테이너 */
+    .image-gallery {
+        width: 100%;
+        height: 10%;
+        display: flex;                    /* 이미지를 가로로 나열 */
+        justify-content: space-between;    /* 이미지들 사이에 간격을 배치 */
+        align-items: center;              /* 세로로 가운데 정렬 */
+        margin-top: 10px;                 /* 텍스트와 이미지 사이에 간격 추가 */
+        flex-wrap: wrap;                  /* 화면이 좁아지면 이미지가 여러 줄로 나누어짐 */
+    }
+
+    /* 각 이미지의 스타일 */
+    .image-gallery a {
+        width: 17%;                       /* 각 이미지 너비 20%로 설정 */
+        margin: 20px;                     /* 이미지 간 간격 */
+        overflow: hidden;                 /* 이미지가 넘치지 않게 잘라냄 */
+        border-radius: 8px;               /* 이미지 모서리 둥글게 */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* 이미지에 미세한 그림자 효과 */
+    }
+
+    /* 이미지 본체 스타일 */
+    .image-gallery img {
+        top: 45%;
+        left: 5%;
+        display: flex;                   /* 이미지를 가로로 나열 */
+        justify-content: space-between;  /* 이미지들 사이에 간격을 배분 */
+        margin-top: 20px;
+        width: 25%;                       /* 부모 요소 너비에 맞게 이미지 크기 조정 */
+        height: auto;                     /* 이미지 비율에 맞게 높이를 자동으로 설정 */
+        object-fit: cover;                /* 이미지를 비율에 맞게 잘라서 맞추기 */
+        border-radius: 8px;               /* 이미지 모서리 둥글게 */
+    }
+
+
     </style>
 </head>
 <body>
@@ -266,24 +300,47 @@
         <hr class="custom-hr2">
     </header>
     <main>
-        {%for news in news_data%}
-            {%if forloop.first%}
-                <section class="news-item">
-                {%if news.img_link == "0" %}
-                    <img src="{%static 'image/ex.png'%}" alt="Example Image" style="position: absolute; top: 0; left: 0; width: 45%; height: 40%; margin: 10px;">
-                {%else%}
-                    <img src="{{news.img_link}}" alt="Example Image" style="position: absolute; top: 0; left: 0; width: 45%; height: 40%; margin: 10px;">
-                {%endif%}
-                    <div class="styled-box styled-box-right">
-                       <h1> {{news.keywords}} </h1>
-                    </div>
-                    <p style="width: 37%; padding: 10px;"><h1>{{news.title}}</h1><hr></p>
-                    <p class="description">{{news.text}}</p>
-                    <button class="star-btn" onclick="toggleStar(this)">★</button>
-                </section>
-            {%endif%}
-        {%endfor%}
-    </main>
+    {% for news in news_data %}
+        {% if forloop.first %}
+            <section class="news-item">
+                {% if news.img_link == "0" %}
+                    <img src="{% static 'image/ex.png' %}" alt="Example Image" style="position: absolute; top: 0; left: 0; width: 45%; height: 40%; margin: 10px;">
+                {% else %}
+                    <img src="{{ news.img_link }}" alt="Example Image" style="position: absolute; top: 0; left: 0; width: 45%; height: 40%; margin: 10px;">
+                {% endif %}
+                <div class="styled-box styled-box-right">
+                    <h1>{{ news.keywords }}</h1>
+                </div>
+                <div style="width: 48%; height: auto; word-wrap: break-word; padding: 10px;">
+                    <p style="font-size: 32px;">{{ news.title }}<hr></p>
+                    <p class="description" style="white-space: pre-wrap; padding: 5px;">
+                        {{ news.text | truncatechars:150 }}
+                    </p>
+                </div>
+                <div class="image-gallery">
+                    <a href="https://www.naver.com/" target="_blank">
+                        <img src="{% static 'image/linkbg.png' %}" alt="Image 1"href="https://www.naver.com/" target="_blank">
+                    </a>
+                    <a href="https://www.naver.com/" target="_blank">
+                        <img src="{% static 'image/linkbg.png' %}" alt="Image 2"href="https://www.naver.com/" target="_blank">
+                    </a>
+                    <a href="https://www.naver.com/" target="_blank">
+                        <img src="{% static 'image/linkbg.png' %}" alt="Image 3"href="https://www.naver.com/" target="_blank">
+                    </a>
+                    <a href="https://www.naver.com/" target="_blank">
+                        <img src="{% static 'image/linkbg.png' %}" alt="Image 4"href="https://www.naver.com/" target="_blank">
+                    </a>
+                </div>
+
+
+                <button class="star-btn" onclick="toggleStar(this)">★</button>
+                <div class="article-content">
+                </div>
+            </section>
+        {% endif %}
+    {% endfor %}
+</main>
+
 
    
     
@@ -306,7 +363,7 @@
     function toggleStar(button) {
             button.classList.toggle('active');
         }
-   
+
     </script>
 </body>
 </html>
