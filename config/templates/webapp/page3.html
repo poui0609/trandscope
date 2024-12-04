@@ -321,10 +321,117 @@
     function redirectToPage1() {
     window.location.href = "page1.html";
     }
-    function toggleStar(button) {
-            button.classList.toggle('active');
-        }
+    function toggleStar(button, keyword, title, content, link) {
+    if (button.classList.contains('active')) {
+        removeFavoriteKeyword(keyword);
+        button.classList.remove('active');  // 비활성화 상태로 변경
+        localStorage.setItem(keyword, 'false');  // localStorage에 비활성 상태 저장
+    } else {
+        addFavoriteKeyword(keyword, title, content, link);
+        button.classList.add('active');  // 활성화 상태로 변경
+        localStorage.setItem(keyword, 'true');  // localStorage에 활성 상태 저장
+    }
+}
 
+function addFavoriteKeyword(keyword, title, content, link) {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const keywordInput = document.getElementById('favorite-keyword');
+    const titleInput = document.getElementById('favorite-title');
+    const contentInput = document.getElementById('favorite-content');
+    const urlInput = document.getElementById('favorite-url');
+
+    // 모든 필드가 존재하는지 확인
+    if (!keywordInput || !titleInput || !contentInput || !urlInput) {
+        console.error('One or more form fields are missing');
+        return;
+    }
+
+    // 폼 데이터 설정
+    keywordInput.value = keyword;
+    titleInput.value = title;
+    contentInput.value = content;
+    urlInput.value = link;
+
+    // 요청 데이터를 로그로 출력
+    console.log('Sending data:', {
+        keyword: keyword,
+        title: title,
+        content: content,
+        url: link
+    });
+
+    // 폼 제출
+    fetch('/add_favorite_keyword/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken
+        },
+        body: new URLSearchParams(new FormData(document.getElementById('favorite-keyword-form')))
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    }).then(data => {
+        if (data.status === 'success') {
+            console.log('Keyword added successfully:', data);
+        } else if (data.status === 'error' && data.message === 'Keyword already exists') {
+            console.log('Keyword already exists:', data);
+        } else {
+            console.error('Error adding keyword:', data.message);
+        }
+    }).catch((error) => {
+        console.error('Fetch error:', error);
+    });
+}
+
+
+
+function removeFavoriteKeyword(keyword) {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const form = document.getElementById('remove-favorite-keyword-form');
+
+    // Set form data / 폼 데이터 설정
+    document.getElementById('remove-favorite-keyword').value = keyword;
+
+    // Submit form / 폼 제출
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken
+        },
+        body: new URLSearchParams(new FormData(form))
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    }).then(data => {
+        if (data.status === 'success') {
+            console.log('Keyword removed successfully:', data);
+        } else {
+            console.error('Error removing keyword:', data.message);
+        }
+    }).catch((error) => {
+        console.error('Fetch error:', error);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const favoriteKeywordsSet = new Set(JSON.parse('{{ favorite_keywords_set|escapejs }}'));
+
+    document.querySelectorAll('.news-item').forEach(function(item) {
+        const keyword = item.getAttribute('data-news-keyword');
+        if (favoriteKeywordsSet.has(keyword)) {
+            const starButton = item.querySelector('.star-btn');
+            if (starButton) {
+                starButton.classList.add('active'); // Activate star button on page load / 페이지 로드 시 별 버튼 활성화
+            }
+        }
+    });
+});
     </script>
 </body>
 </html>
