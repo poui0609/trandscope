@@ -392,6 +392,8 @@
             justify-content: center;
             padding: 10px;
             text-align: center;
+            cursor: pointer;  /* 마우스가 <div> 위에 있을 때 커서가 손가락 모양으로 바뀌게 설정 */
+
         }
 
         .styled-box-right {
@@ -469,6 +471,8 @@
 
         .star-btn {
             position: absolute;
+            width: 30px;
+            height: auto;
             bottom: 10px;
             right: 10px;
             font-size: 24px;
@@ -557,7 +561,10 @@
                     <div style="width: 45%; height: auto; word-wrap: break-word; padding: 10px;">
                             <p style="font-size: 32px;">{{ news.title }}<hr></p>
                         {% if user.is_authenticated %}
-                            <button class="star-btn" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">★</button>
+<button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
+        onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+    ★
+</button>
                         {% endif %}
                         <p class="description" style="white-space: pre-wrap;">{{ news.text|truncatechars:150 }}</p>
                     </div>
@@ -575,7 +582,10 @@
                     <div style="width: 48%; height: auto; word-wrap: break-word; padding: 10px;">
                             <p style="font-size: 32px;">{{ news.title }}<hr></p>
                         {% if user.is_authenticated %}
-                            <button class="star-btn" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">★</button>
+<button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
+        onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+    ★
+</button>
                         {% endif %}
                         <p class="description" style="white-space: pre-wrap;">{{ news.text|truncatechars:150 }}</p>
                     </div>
@@ -633,13 +643,32 @@ function redirectToPage3(ranking_id, keyword, title, content, link) {
 }
 
 
+// 페이지가 로드될 때 star-btn의 상태를 확인
+window.addEventListener('load', function() {
+    const buttons = document.querySelectorAll('.star-btn');
+
+    buttons.forEach(function(button) {
+        const keyword = button.getAttribute('data-keyword');  // 각 버튼에 해당하는 keyword를 data-attribute로 설정
+
+        // localStorage에서 해당 keyword에 대한 즐겨찾기 상태를 확인
+        if (localStorage.getItem(keyword) === 'true') {
+            button.classList.add('active');  // active 클래스 추가하여 버튼을 금색으로 만듦
+        } else {
+            button.classList.remove('active');  // active 클래스 제거하여 버튼을 회색으로 만듦
+        }
+    });
+});
+
+// star 버튼 클릭 시 상태 토글 및 저장
 function toggleStar(button, keyword, title, content, link) {
     if (button.classList.contains('active')) {
         removeFavoriteKeyword(keyword);
         button.classList.remove('active');  // 비활성화 상태로 변경
+        localStorage.setItem(keyword, 'false');  // localStorage에 비활성 상태 저장
     } else {
         addFavoriteKeyword(keyword, title, content, link);
         button.classList.add('active');  // 활성화 상태로 변경
+        localStorage.setItem(keyword, 'true');  // localStorage에 활성 상태 저장
     }
 }
 
