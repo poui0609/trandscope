@@ -292,8 +292,10 @@
                     </a><br>
                 {% endfor %}
                 </div>
-
-                <button class="star-btn" onclick="toggleStar(this)">★</button>
+                <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
+                                onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                            ★
+                        </button>
                 <div class="article-content">
                 </div>
             </section>
