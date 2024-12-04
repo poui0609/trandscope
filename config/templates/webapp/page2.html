@@ -60,7 +60,7 @@
                 padding: 0 50px; 
             }
             .menu-icon, .user-icon {
-                font-size: 30px; 
+                font-size: 30px;
             }
             h2 {
                 font-size: 18px;
@@ -214,20 +214,22 @@
         }
 
       
-        .styled-box {
+    .styled-box {
             width: 50%;
             height: 80px;
-            background-color: #d3c0b8; 
-            border-radius: 8px; 
+            background-color: #d3c0b8;
+            border-radius: 8px;
             margin-bottom: 10px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             border-radius: 50px;
             display: flex;
-            align-items: center; 
-            justify-content: center; 
-            padding: 10px; 
-            text-align: center; 
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;  /* 마우스가 <div> 위에 있을 때 커서가 손가락 모양으로 바뀌게 설정 */
         }
+
         .styled-box-right {
             right: 0; 
         
@@ -283,7 +285,7 @@
                 style="position: absolute; top: 0; right: 0; width: 45%; height: 80%; margin: 30px;">
             {% endif%}
             <div class="styled-box styled-box-left" onclick="redirectToPage3('{{ news.ranking }}', '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
-                <h1>{{forloop.counter}}.{{news.keywords}}</h1>
+                <h1>{{forloop.counter}}. {{news.keywords}}</h1>
             </div>
             <div style="width: 45%; height: auto; word-wrap: break-word; padding: 10px;">
                 <p>{{news.title}}
@@ -292,7 +294,7 @@
                 {% if user.is_authenticated %}
                     <button class="star-btn" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">★</button>
                 {% endif %}
-                <p class="description">{{news.text|truncatechars:150}}</p>
+                <p class="description" style="white-space: pre-wrap;">{{news.text|truncatechars:150}}</p>
             </div>
         </section>
         {% else %}
@@ -305,18 +307,19 @@
                 style="position: absolute; top: 0; left: 0; width: 45%; height: 80%; margin: 30px;">
             {% endif%}
             <div class="styled-box styled-box-left" onclick="redirectToPage3('{{ news.ranking }}', '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
-                <h1>{{forloop.counter}}.{{news.keywords}}</h1>
+                <h1>{{forloop.counter}}. {{news.keywords}}</h1>
             </div>
             <div style="width: 45%; height: auto; word-wrap: break-word; padding: 10px;">
-                <p>{{news.title}}
-                    <hr>
-                </p>
+                <p style="font-size: 32px;">{{ news.title }}<hr></p>
+
                 {% if user.is_authenticated %}
-                    <button class="star-btn" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">★</button>
-{% else %}
-    <p>로그인 후 사용 가능합니다.</p>
-{% endif %}
-                <p class="description">{{news.text|truncatechars:150}}</p>
+                <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                    ★
+                </button>
+                {% else %}
+                        <p style="color: #dc5559">로그인 후 사용 가능합니다.</p>
+                {% endif %}
+                <p class="description" style="white-space: pre-wrap;">{{news.text|truncatechars:150}}</p>
             </div>
         </section>
         {%endif%}

@@ -61,6 +61,7 @@
             .menu-icon,
             .user-icon {
                 font-size: 30px;
+
             }
 
             h2 {
@@ -275,7 +276,6 @@
             width: 50%; /* 사이드바 너비 */
         }
 
-       /* 사이드바 내부 이미지 */
         /* 사이드바 내부 이미지 */
         .sidebar .side-mainimage {
             width: 96%;          /* 이미지 너비 설정 */
@@ -393,7 +393,6 @@
             padding: 10px;
             text-align: center;
             cursor: pointer;  /* 마우스가 <div> 위에 있을 때 커서가 손가락 모양으로 바뀌게 설정 */
-
         }
 
         .styled-box-right {
@@ -558,13 +557,15 @@
                     <div class="styled-box styled-box-left" onclick="redirectToPage3('{{ news.ranking }}', '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
                         <h1>{{ news.ranking }}. {{ news.keywords }}</h1> <!-- 여기서 .과 사이에 공백을 추가 -->
                     </div>
-                    <div style="width: 45%; height: auto; word-wrap: break-word; padding: 10px;">
+                    <div style="width: 48%; height: auto; word-wrap: break-word; padding: 10px;">
                             <p style="font-size: 32px;">{{ news.title }}<hr></p>
                         {% if user.is_authenticated %}
-                            <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
-                                 onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
-                                ★
-                            </button>
+                        <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
+                                onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                            ★
+                        </button>
+                        {% else %}
+                        <p style="color: #dc5559">로그인 후 사용 가능합니다.</p>
                         {% endif %}
                         <p class="description" style="white-space: pre-wrap;">{{ news.text|truncatechars:150 }}</p>
                     </div>
@@ -582,10 +583,12 @@
                     <div style="width: 48%; height: auto; word-wrap: break-word; padding: 10px;">
                             <p style="font-size: 32px;">{{ news.title }}<hr></p>
                         {% if user.is_authenticated %}
-<button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
-        onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
-    ★
-</button>
+                        <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
+                                onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                            ★
+                        </button>
+                        {% else %}
+                        <p style="color: #dc5559">로그인 후 사용 가능합니다.</p>
                         {% endif %}
                         <p class="description" style="white-space: pre-wrap;">{{ news.text|truncatechars:150 }}</p>
                     </div>

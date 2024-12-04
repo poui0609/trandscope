@@ -267,6 +267,7 @@ def add_recent_keyword(request):
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
 
 
+
 def page3(request, ranking_id):
     news_data = MainNews.objects.filter(ranking=ranking_id).order_by('ranking')
 
@@ -281,10 +282,13 @@ def page3(request, ranking_id):
                     grouped_rank_data.append(item)
                     break
 
+    news_link = MainNews.objects.filter(ranking=ranking_id).order_by('ranking')
+
     now = timezone.now()
     context = {
         'current_date': now.strftime("%A, %B %d"),
         'news_data': grouped_rank_data,
+        'news_link': news_link,
     }
 
     return render(request, 'webapp/page3.html', context)
