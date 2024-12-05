@@ -254,186 +254,189 @@
         <h1>WEB PROGRAMMING</h1>
         <hr class="custom-hr">
         <div class="title">
-            <img src="{%static 'image/trandscopenews_LOGO.png'%}" alt="Title Image">
+            <img src="{% static 'image/trandscopenews_LOGO.png' %}" alt="Title Image">
         </div>
         <hr class="custom-hr2">
         <hr class="custom-hr3">
 
         <div class="icons">
-            <div class="menu-icon"><img src="{%static 'image/home.png'%}"onclick="window.location.href='{% url 'page1' %}'" ></div>
+            <div class="menu-icon"><img src="{% static 'image/home.png' %}" onclick="window.location.href='{% url 'page1' %}'"></div>
             <h2>{{ current_date }}</h2>
             <div class="user-icon" onclick="redirectToUserPage()">👤</div>
         </div>
         <hr class="custom-hr3">
         <hr class="custom-hr2">
     </header>
+
     <main>
-    {% for news in news_data %}
-        {% if forloop.first %}
-            <section class="news-item">
-                {% if news.img_link == "0" %}
-                    <img src="{% static 'image/ex.png' %}" alt="Example Image" style="position: absolute; top: 0; left: 0; width: 45%; height: 40%; margin: 10px;">
-                {% else %}
-                    <img src="{{ news.img_link }}" alt="Example Image" style="position: absolute; top: 0; left: 0; width: 45%; height: 40%; margin: 10px;">
-                {% endif %}
-                <div class="styled-box styled-box-right">
-                    <h1>{{ news.keywords }}</h1>
-                </div>
-                <div style="width: 48%; height: auto; word-wrap: break-word; padding: 10px;">
-                    <p style="font-size: 28px;">{{ news.title }}<hr></p>
-                    <p class="description" style="white-space: pre-wrap;">{{ news.text|truncatechars:150 }}</p>
-                </div>
-                <div style="width: 48%; height: auto; margin-left: 0; padding:15px 0px;font-size: 20px">
-                <h2>관련기사<hr></h2>
-                {% for news in news_link %}
-                    <!-- 뉴스 제목을 링크로 감싸기 -->
-                    <a href="{{ news.link }}" target="_blank" style="font-size: 18px; font-weight: bold; text-align: left; display: block;">
-                        {{ news.title }}
-                    </a><br>
-                {% endfor %}
-                </div>
-                <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
-                                onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
-                            ★
-                        </button>
-                <div class="article-content">
-                </div>
-            </section>
-        {% endif %}
-    {% endfor %}
+        {% for news in news_data %}
+            {% if forloop.first %}
+                <section class="news-item">
+                    {% if news.img_link == "0" %}
+                        <img src="{% static 'image/ex.png' %}" alt="Example Image" style="position: absolute; top: 0; left: 0; width: 45%; height: 40%; margin: 10px;">
+                    {% else %}
+                        <img src="{{ news.img_link }}" alt="Example Image" style="position: absolute; top: 0; left: 0; width: 45%; height: 40%; margin: 10px;">
+                    {% endif %}
+                    <div class="styled-box styled-box-right">
+                        <h1>{{ news.keywords }}</h1>
+                    </div>
+                    <div style="width: 48%; height: auto; word-wrap: break-word; padding: 10px;">
+                        <p style="font-size: 28px;">{{ news.title }}<hr></p>
+                        <p class="description" style="white-space: pre-wrap;">{{ news.text|truncatechars:150 }}</p>
+                    </div>
+                    <div style="width: 48%; height: auto; margin-left: 0; padding:15px 0px;font-size: 20px">
+                        <h2>관련기사<hr></h2>
+                        {% for news in news_link %}
+                            <a href="{{ news.link }}" target="_blank" style="font-size: 18px; font-weight: bold; text-align: left; display: block;">
+                                {{ news.title }}
+                            </a><br>
+                        {% endfor %}
+                    </div>
+                    <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
+                            onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                        ★
+                    </button>
+                    <div class="article-content"></div>
+                </section>
+            {% endif %}
+        {% endfor %}
+    </main>
 
-</main>
-
-
-
+    <!-- CSRF 토큰을 포함한 폼 -->
+    <form id="favorite-keyword-form" style="display:none;">
+        {% csrf_token %}
+        <input type="hidden" id="favorite-keyword" name="keyword">
+        <input type="hidden" id="favorite-title" name="title">
+        <input type="hidden" id="favorite-content" name="content">
+        <input type="hidden" id="favorite-url" name="url">
+    </form>
+    <form id="remove-favorite-keyword-form" action="/remove_favorite_keyword/" method="post" style="display:none;">
+        {% csrf_token %}
+        <input type="hidden" id="remove-favorite-keyword" name="keyword">
+    </form>
 
     <script>
-        function openSidebar() {
-        document.getElementById("userSidebar").style.width = "0";
-        document.querySelector('main').classList.add('hidden');
-    }
-
-    function closeSidebar() {
-        document.querySelector('main').classList.remove('hidden');
-    }
-    function redirectToUserPage() {
-
-    window.location.href = "/userPage.html";
-    }
-    function redirectToPage1() {
-    window.location.href = "page1.html";
-    }
-    function toggleStar(button, keyword, title, content, link) {
-    if (button.classList.contains('active')) {
-        removeFavoriteKeyword(keyword);
-        button.classList.remove('active');  // 비활성화 상태로 변경
-        localStorage.setItem(keyword, 'false');  // localStorage에 비활성 상태 저장
-    } else {
-        addFavoriteKeyword(keyword, title, content, link);
-        button.classList.add('active');  // 활성화 상태로 변경
-        localStorage.setItem(keyword, 'true');  // localStorage에 활성 상태 저장
-    }
-}
-
-function addFavoriteKeyword(keyword, title, content, link) {
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    const keywordInput = document.getElementById('favorite-keyword');
-    const titleInput = document.getElementById('favorite-title');
-    const contentInput = document.getElementById('favorite-content');
-    const urlInput = document.getElementById('favorite-url');
-
-    // 모든 필드가 존재하는지 확인
-    if (!keywordInput || !titleInput || !contentInput || !urlInput) {
-        console.error('One or more form fields are missing');
-        return;
-    }
-
-    // 폼 데이터 설정
-    keywordInput.value = keyword;
-    titleInput.value = title;
-    contentInput.value = content;
-    urlInput.value = link;
-
-    // 요청 데이터를 로그로 출력
-    console.log('Sending data:', {
-        keyword: keyword,
-        title: title,
-        content: content,
-        url: link
-    });
-
-    // 폼 제출
-    fetch('/add_favorite_keyword/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': csrfToken
-        },
-        body: new URLSearchParams(new FormData(document.getElementById('favorite-keyword-form')))
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    }).then(data => {
-        if (data.status === 'success') {
-            console.log('Keyword added successfully:', data);
-        } else if (data.status === 'error' && data.message === 'Keyword already exists') {
-            console.log('Keyword already exists:', data);
-        } else {
-            console.error('Error adding keyword:', data.message);
-        }
-    }).catch((error) => {
-        console.error('Fetch error:', error);
-    });
-}
-
-
-
-function removeFavoriteKeyword(keyword) {
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    const form = document.getElementById('remove-favorite-keyword-form');
-
-    // Set form data / 폼 데이터 설정
-    document.getElementById('remove-favorite-keyword').value = keyword;
-
-    // Submit form / 폼 제출
-    fetch(form.action, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': csrfToken
-        },
-        body: new URLSearchParams(new FormData(form))
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    }).then(data => {
-        if (data.status === 'success') {
-            console.log('Keyword removed successfully:', data);
-        } else {
-            console.error('Error removing keyword:', data.message);
-        }
-    }).catch((error) => {
-        console.error('Fetch error:', error);
-    });
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    const favoriteKeywordsSet = new Set(JSON.parse('{{ favorite_keywords_set|escapejs }}'));
-
-    document.querySelectorAll('.news-item').forEach(function(item) {
-        const keyword = item.getAttribute('data-news-keyword');
-        if (favoriteKeywordsSet.has(keyword)) {
-            const starButton = item.querySelector('.star-btn');
-            if (starButton) {
-                starButton.classList.add('active'); // Activate star button on page load / 페이지 로드 시 별 버튼 활성화
+        function toggleStar(button, keyword, title, content, link) {
+            if (button.classList.contains('active')) {
+                removeFavoriteKeyword(keyword);
+                button.classList.remove('active');  // 비활성화 상태로 변경
+                localStorage.setItem(keyword, 'false');  // localStorage에 비활성 상태 저장
+            } else {
+                addFavoriteKeyword(keyword, title, content, link);
+                button.classList.add('active');  // 활성화 상태로 변경
+                localStorage.setItem(keyword, 'true');  // localStorage에 활성 상태 저장
             }
         }
-    });
-});
+
+        function addFavoriteKeyword(keyword, title, content, link) {
+            const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+            if (!csrfTokenElement) {
+                console.error('CSRF token element is missing');
+                return;
+            }
+            const csrfToken = csrfTokenElement.value;
+
+            const keywordInput = document.getElementById('favorite-keyword');
+            const titleInput = document.getElementById('favorite-title');
+            const contentInput = document.getElementById('favorite-content');
+            const urlInput = document.getElementById('favorite-url');
+
+            // 모든 필드가 존재하는지 확인
+            if (!keywordInput || !titleInput || !contentInput || !urlInput) {
+                console.error('One or more form fields are missing');
+                return;
+            }
+
+            // 폼 데이터 설정
+            keywordInput.value = keyword;
+            titleInput.value = title;
+            contentInput.value = content;
+            urlInput.value = link;
+
+            // 요청 데이터를 로그로 출력
+            console.log('Sending data:', {
+                keyword: keyword,
+                title: title,
+                content: content,
+                url: link
+            });
+
+            // 폼 제출
+            fetch('/add_favorite_keyword/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrfToken
+                },
+                body: new URLSearchParams(new FormData(document.getElementById('favorite-keyword-form')))
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }).then(data => {
+                if (data.status === 'success') {
+                    console.log('Keyword added successfully:', data);
+                } else if (data.status === 'error' && data.message === 'Keyword already exists') {
+                    console.log('Keyword already exists:', data);
+                } else {
+                    console.error('Error adding keyword:', data.message);
+                }
+            }).catch((error) => {
+                console.error('Fetch error:', error);
+            });
+        }
+
+        function removeFavoriteKeyword(keyword) {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const form = document.getElementById('remove-favorite-keyword-form');
+
+            // Set form data
+            document.getElementById('remove-favorite-keyword').value = keyword;
+
+            // Submit form
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrfToken
+                },
+                body: new URLSearchParams(new FormData(form))
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }).then(data => {
+                if (data.status === 'success') {
+                    console.log('Keyword removed successfully:', data);
+                } else {
+                    console.error('Error removing keyword:', data.message);
+                }
+            }).catch((error) => {
+                console.error('Fetch error:', error);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let favoriteKeywordsSet;
+            try {
+                favoriteKeywordsSet = new Set(JSON.parse('{{ favorite_keywords_set|escapejs }}'));
+            } catch (e) {
+                console.error('Error parsing favorite keywords set:', e);
+                favoriteKeywordsSet = new Set(); // 기본 빈 Set으로 설정
+            }
+
+            document.querySelectorAll('.news-item').forEach(function(item) {
+                const keyword = item.getAttribute('data-news-keyword');
+                if (favoriteKeywordsSet.has(keyword)) {
+                    const starButton = item.querySelector('.star-btn');
+                    if (starButton) {
+                        starButton.classList.add('active'); // 페이지 로드 시 별 버튼 활성화
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
