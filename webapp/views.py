@@ -22,13 +22,21 @@ def get_data() :
 def userPage(request):
     
     return render(request, 'webapp/userPage.html')
-    
+
+
 def page2(request, category_id):
     news_data = MainNews.objects.filter(category=category_id).order_by('ranking')
-    
+    skip = False
+    rank_found = False
     grouped_rank_data = []
     for key, group in groupby(news_data, key=lambda x: x.ranking):
         group_list = list(group)
+
+        if key == -1:
+            continue
+
+        rank_found = True
+
         if all(item.img_link == '0' for item in group_list):
             grouped_rank_data.append(group_list[0])
         else:
@@ -37,11 +45,16 @@ def page2(request, category_id):
                     grouped_rank_data.append(item)
                     break
 
+    if not rank_found:
+        skip = True
+
     context = {
         'news_data': grouped_rank_data,
-        'category_name': get_category_name(category_id), 
+        'category_name': get_category_name(category_id),
+        'skip': skip
     }
     return render(request, 'webapp/page2.html', context)
+
 
 def get_category_name(category_id):
     categories = {

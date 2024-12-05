@@ -118,7 +118,7 @@
             display: none;
             margin-top: 30px;
             margin-left: 13%;
-            font-size: 14px;
+
             color: black;
             text-align: left;
         }
@@ -221,24 +221,28 @@
     {% if user.is_authenticated %}
         <div id="recent-text" class="hidden-text">
             {% for recent in user.recentkeyword_set.all %}
-                <div class="styled-box" onclick="window.location.href='{{ recent.url }}'">
-                    <h2>{{ recent.keyword }}</h2>
+                <div class="styled-box">
+                    <h1 onclick="window.location.href='{{ recent.url }}'" style="cursor: pointer; margin-top: -10px; margin-left: 10px">{{ recent.keyword }}</h1>
                 </div>
-                <h1>{{ recent.title }}</h1>
+                <div style="margin-bottom: 15px;">
+                <h2>{{ recent.title }}</h2>
                 <hr style="width: 40%;">
-                <p class="description">{{ recent.content }}</p>
+                        <p class="description" style="white-space: pre-wrap; ">{{ recent.content|truncatechars:150 }}</p>
+                </div>
             {% endfor %}
         </div>
         <div id="favorite-text" class="hidden-text visible">
             {% for favorite in user.userfavoritekeywords_set.all %}
-                <div class="styled-box">
+                <div class="styled-box" >
                     <!-- Button to toggle favorite status / 즐겨찾기 상태를 토글하는 버튼 -->
-                    <button class="star-btn active" onclick="toggleStar(this, '{{ favorite.keyword|escapejs }}')">★</button>
-                    <h2 onclick="window.location.href='{{ favorite.url }}'" style="cursor: pointer;">{{ favorite.keyword }}</h2>
+                    <button class="star-btn active" style="margin-top: -10px;" onclick="toggleStar(this, '{{ favorite.keyword|escapejs }}')">★</button>
+                    <h1 onclick="window.location.href='{{ favorite.url }}'" style="cursor: pointer; margin-top: -10px;">{{ favorite.keyword }}</h1>
                 </div>
-                <h1>{{ favorite.title }}</h1>
+                <div style="margin-bottom: 10px;">
+                <h2>{{ favorite.title }}</h2>
                 <hr style="width: 40%;">
-                <p class="description">{{ favorite.content }}</p>
+                        <p class="description" style="white-space: pre-wrap;">{{ favorite.content|truncatechars:150 }}</p>
+                </div>
             {% endfor %}
         </div>
     {% else %}
