@@ -388,6 +388,20 @@ function addFavoriteKeyword(keyword, title, content, link) {
     });
 }
 
+        window.addEventListener('load', function() {
+    const buttons = document.querySelectorAll('.star-btn');
+
+    buttons.forEach(function(button) {
+        const keyword = button.getAttribute('data-keyword');  // 각 버튼에 해당하는 keyword를 data-attribute로 설정
+
+        // localStorage에서 해당 keyword에 대한 즐겨찾기 상태를 확인
+        if (localStorage.getItem(keyword) === 'true') {
+            button.classList.add('active');  // active 클래스 추가하여 버튼을 금색으로 만듦
+        } else {
+            button.classList.remove('active');  // active 클래스 제거하여 버튼을 회색으로 만듦
+        }
+    });
+});
 
 
 function removeFavoriteKeyword(keyword) {
