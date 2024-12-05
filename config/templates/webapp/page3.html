@@ -304,6 +304,18 @@
 
 </main>
 
+<!-- CSRF 토큰을 포함한 폼 -->
+<form id="favorite-keyword-form" style="display:none;">
+    {% csrf_token %}
+    <input type="hidden" id="favorite-keyword" name="keyword">
+    <input type="hidden" id="favorite-title" name="title">
+    <input type="hidden" id="favorite-content" name="content">
+    <input type="hidden" id="favorite-url" name="url">
+</form>
+<form id="remove-favorite-keyword-form" action="/remove_favorite_keyword/" method="post" style="display:none;">
+    {% csrf_token %}
+    <input type="hidden" id="remove-favorite-keyword" name="keyword">
+</form>
 
 
 
