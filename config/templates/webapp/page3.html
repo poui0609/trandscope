@@ -420,7 +420,7 @@ function removeFavoriteKeyword(keyword) {
         console.error('Fetch error:', error);
     });
 }
-
+        
 document.addEventListener("DOMContentLoaded", function() {
     const favoriteKeywordsSet = new Set(JSON.parse('{{ favorite_keywords_set|escapejs }}'));
 
