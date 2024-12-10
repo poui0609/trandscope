@@ -5,7 +5,7 @@ header {
 
 /* 제목 WEB PROGRAMMING*/
 header h1 {
-    font-size: 20px;
+    font-size: clamp(10px, 1.25vw, 40px);
     color: #555;
     letter-spacing: 3px;
 }
@@ -69,5 +69,5 @@ header img {
 /* 날짜 스타일 */
 .icons h2 {
     color: inherit;
-    font-size: 25px;
+    font-size: clamp(16px, 1.8vw, 40px);
 }

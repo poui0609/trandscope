@@ -1,3 +1,4 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="kr">
 
@@ -23,7 +24,8 @@
     }
     </style>
 
-    <link rel="stylesheet" href="header.css" />
+    <link rel="stylesheet" href="static/css/header.css" />
+    <link rel="stylesheet" href="static/css/newsBox.css" />
 
 </head>
 <body>
@@ -47,6 +49,63 @@
         <hr class="custom-hr2">
     </header>
     <main>
+        {% for news in news_data %}
+            {% if news.ranking|divisibleby:2 %}
+                <section class="news-item1">
+                    <!--신문 이미지 처리 -->
+                    {% if news.img_link == "0" %}
+                        <img src="image/ex.png">
+                    {% else %}
+                        <img src="{{ news.img_link }}" >
+                    {% endif %}
+
+                    <!--화면에 보일 신문 정보-->
+                    <div class= "styled-box">
+                        <h1>{{ news.ranking }}. {{ news.keywords }}</h1> <!-- 여기서 .과 사이에 공백을 추가 -->
+                        <p class="news-title">{{ news.title }}</p>
+                        <hr class="custom-hr4">
+                        <p>{{ news.text|truncatechars:150 }}</p>
+                    </div>
+                    {% if user.is_authenticated %}
+                            <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
+                                    onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                                ★
+                            </button>
+                        {% else %}
+                            <p style="color: #dc5559">로그인 후 사용 가능합니다.</p>
+                        {% endif %}
+                </section>
+            {% else %}
+                <section class="news-item2">
+                    <!--화면에 보일 신문 정보-->
+                    <div class= "styled-box">
+                        <h1>{{ news.ranking }}. {{ news.keywords }}</h1> <!-- 여기서 .과 사이에 공백을 추가 -->
+                        <p class="news-title">{{ news.title }}</p>
+                        <hr class="custom-hr4">
+                        <p>{{ news.text|truncatechars:150 }}</p>
+                    </div>
+                    <!--신문 이미지 처리 -->
+                    {% if news.img_link == "0" %}
+                        <img src="image/ex.png">
+                    {% else %}
+                        <img src="{{ news.img_link }}" >
+                    {% endif %}
+
+                {% if user.is_authenticated %}
+                            <button class="star-btn2" data-keyword="{{ news.keywords|escapejs }}"
+                                    onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                                ★
+                            </button>
+                        {% else %}
+                            <p style="color: #dc5559">로그인 후 사용 가능합니다.</p>
+                        {% endif %}
+                </section>
+
+            {% endif %}
+        {% endfor %}
+
+
+
 
     </main>
 
