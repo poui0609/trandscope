@@ -1,18 +1,18 @@
 /* 전체 레이아웃 스타일 */
 header {
-    text-align: center; /* 가운데 정렬 */
+    margin-bottom: 3%;
 }
 
-/* 제목 스타일 */
+/* 제목 WEB PROGRAMMING*/
 header h1 {
     font-size: 20px;
     color: #555;
     letter-spacing: 3px;
 }
 
-/* 커스텀 구분선 스타일 */
+/* 구분선  */
 .custom-hr {
-    width: 60%;
+    width: 80%;
     border: none;
     height: 2px;
     background-color: #1b1b1b;
@@ -21,20 +21,20 @@ header h1 {
 }
 
 .custom-hr2 {
-    width: 80%;
+    width: 100%;
     border: none;
     height: 3px;
     background-color: #1b1b1b;
-    margin: 0px auto;
+    margin: 3px auto;
 
 }
 
 .custom-hr3 {
-    width: 80%;
+    width: 100%;
     border: none;
     height: 5px;
     background-color: #1b1b1b;
-    margin: 0px auto;
+    margin: 4px auto;
 }
 
 /* 제목 이미지  */
@@ -69,6 +69,5 @@ header img {
 /* 날짜 스타일 */
 .icons h2 {
     color: inherit;
-    font-size: 40px;
-    cursor: pointer;
+    font-size: 25px;
 }
