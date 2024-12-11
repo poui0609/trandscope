@@ -1,11 +1,11 @@
 
 /*userpage로 이동      */
 function redirectToUserPage() {
-    window.location.href = "/userPage";
+    window.location.href = "/userPage.html";
     }
 /* mainpage로 이동    */
 function redirectToMainpage() {
-    window.location.href = "/page1";
+    window.location.href = "/page1.html";
 }
 
 /* detailpage로 이동   */

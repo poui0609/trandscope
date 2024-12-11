@@ -4,7 +4,7 @@
     top: 0;
     left: 0;
     width: 60%;
-    height: 200%;
+    height: 110%;
     background-color: #6f94c6; /*배경색상*/
     color: white; /*글자색*/
     border-radius: 20px;
@@ -20,7 +20,16 @@
     transform: translateX(-10%); /* 화면 안으로 이동 */
 }
 
-
+.thema-img { /*news thema*/
+    margin: 1.5vh 0;
+    width: 40%;
+    cursor: pointer;
+}
+.trendscope-img{ /*trendscope*/
+    margin: 6vh 0 1.5vh 0;
+    width:80%;
+    cursor: pointer
+}
 .side-bar .side-bar-inner .categories img{ /*카테고리 화실표 이미지*/
     width: 15%;
     height: auto;
@@ -51,11 +60,23 @@
     display: flex;
     flex-wrap: nowrap;
 }
+.maker-img img{
+    width: 50%;
+}
 
 
 @media (max-width: 720px) {
     .maker-img{
-        flex-wrap: wrap;
+        flex-wrap: wrap-reverse;
     }
+    .close-btn{
+        top: 0;
+    }
+    .thema-img{
+        width: 60%;
+    }
+    .trendscope-img{
+        width: 95%;
+    };
 
 }
