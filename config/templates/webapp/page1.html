@@ -115,7 +115,7 @@
                     </div>
                     {% if user.is_authenticated %}
                             <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
-                                    onclick="event.stopPropagation(); toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                                    onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
                                 ★
                             </button>
                         {% else %}
@@ -139,10 +139,10 @@
                     {% endif %}
 
                     {% if user.is_authenticated %}
-                        <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}"
-                                    onclick="event.stopPropagation(); toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')" style="right: auto; left: 3%">
-                                ★
-                        </button>
+                    <button class="star-btn2" data-keyword="{{ news.keywords|escapejs }}"
+                            onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                        ★
+                    </button>
                     {% else %}
                         <p style="color: #dc5559">로그인 후 사용 가능합니다.</p>
                     {% endif %}
@@ -167,9 +167,9 @@
         <input type="hidden" name="keyword" id="remove-favorite-keyword">
     </form>
 
-    <script src="static/js/navigation.js"></script>
-    <script src="static/js/user.js"></script>
+    <script type="text/javascript" src="static/js/navigation.js"></script>
+    <script type="text/javascript" src="static/js/user.js"></script>
     <script src="static/js/sidebar.js"></script>
-    <script src="static/js/str-btn.js"></script>
+    <script type="text/javascript" src="static/js/str-btn.js"></script>
 </body>
 </html>
