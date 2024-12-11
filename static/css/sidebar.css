@@ -1,0 +1,53 @@
+/* 사이드바 기본 스타일 */
+.side-bar {
+    position: fixed; /* 화면 고정 */
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 200%;
+    background-color: #6f94c6; /*배경색상*/
+    color: white; /*글자색*/
+    border-radius: 20px;
+    transform: translateX(-200%); /* 화면 밖으로 숨김 */
+    transition: transform 0.5s ease-in-out; /* 열리고 닫힐 때 애니메이션 */
+    z-index: 1000;
+}
+.side-bar-inner { /*화면 왼쪽으로 빈공간 주기*/
+    margin-left: 20%;
+}
+/* 사이드바 열렸을 때 */
+.side-bar.open {
+    transform: translateX(-10%); /* 화면 안으로 이동 */
+}
+
+
+.side-bar .side-bar-inner .categories img{ /*카테고리 화실표 이미지*/
+    width: 15%;
+    height: auto;
+    margin: 2vw 1.5vh;
+}
+.side-bar .side-bar-inner .categories a{ /*카테고리 글자      */
+    display: flex;
+    border-radius: 5px;
+    align-items: center;
+    margin:2vh 2vw;
+    font-size: 20px;
+    height: 6.5vh;
+    text-decoration: none;
+    transition: .5s;
+    cursor: pointer;
+    color: #c4dce8;
+}
+.close-btn{ /*닫기버튼      */
+    position:absolute;
+    cursor: pointer;
+    top: 2%;
+    right: 2%;
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.maker-img{ /*제작자 info 이미지  */
+    display: flex;
+    flex-wrap: nowrap;
+}

@@ -50,20 +50,22 @@
         {% for news in news_data %}
             {% if forloop.first %}
                 <select class="detail-News">
-                    <!--신문 이미지 처리 -->
-                    {% if news.img_link == "0" %}
-                        <img src="image/ex.png" >
-                    {% else %}
-                        <img src="{{ news.img_link }}" >
-                    {% endif %}
-                    <!--화면에 보일 신문 정보-->
-                    <div class= "styled-box">
-                        <h1>{{ news.ranking }}. {{ news.keywords }}</h1> <!-- 여기서 .과 사이에 공백을 추가 -->
-                        <p class="news-title">{{ news.title }}</p>
-                        <hr class="custom-hr4">
-                        <p>{{ news.text|truncatechars:150 }}</p>
+                    <div><!--신문 이미지 처리 -->
+                        {% if news.img_link == "0" %}
+                            <img src="image/ex.png" >
+                        {% else %}
+                            <img src="{{ news.img_link }}" >
+                        {% endif %}
                     </div>
-                    <div>
+                    <div> <!--화면에 보일 신문 정보-->
+                        <div class= "styled-box">
+                            <h1>{{ news.ranking }}. {{ news.keywords }}</h1> <!-- 여기서 .과 사이에 공백을 추가 -->
+                            <p class="news-title">{{ news.title }}</p>
+                            <hr class="custom-hr4">
+                            <p>{{ news.text|truncatechars:150 }}</p>
+                        </div>
+                    </div>
+                    <div> <!-- 관련 신문 링크-->
                         <h2>관련기사<hr></h2>
                         {% for news in news_link %}
                             <!-- 뉴스 제목을 링크로 감싸기 -->

@@ -1,9 +1,9 @@
 // 사이드바 열기
 function openSidebar() {
-    document.getElementById("mySidebar").classList.add("open");
+    document.getElementById("side-bar").classList.add("open");
 }
 
 // 사이드바 닫기
 function closeSidebar() {
-    document.getElementById("mySidebar").classList.remove("open");
+    document.getElementById("side-bar").classList.remove("open");
 }

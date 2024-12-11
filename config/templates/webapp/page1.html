@@ -19,12 +19,12 @@
         margin: 1% 10% 3% 10%;
     }
     h1, h2, h3, h4, h5, h6{
-        cursor: default;
     }
     </style>
 
     <link rel="stylesheet" href="static/css/header.css" />
     <link rel="stylesheet" href="static/css/newsBox.css" />
+    <link rel="stylesheet" href="static/css/sidebar.css" />
 
 </head>
 <body>
@@ -47,10 +47,58 @@
         <hr class="custom-hr3">
         <hr class="custom-hr2">
     </header>
+    <!-- 사이드바-->
+    <aside id="side-bar" class="side-bar">
+        <aside class="side-bar-inner">
+            <span class="close-btn" onclick="closeSidebar()">×</span>
+            <img src="static/image/trendscope_logo.png" onclick="redirectToMainpage()" style="margin: 6vh 0 1.5vh 0; width:80%; cursor: pointer">
+            <hr class="custom-hr2"> <!-- 구분선-->
+            <hr class="custom-hr3">
+            <img src="/static/image/newsthema.png" style="margin: 1.5vh 0; width: 40%" >
+            <hr class="custom-hr2"> <!-- 구분선-->
+            <hr class="custom-hr3">
+            <div class="maker-img">
+                <img src="/static/image/ex.png">
+                <div class="categories">
+                <a href="/webapp/page2/0/" title="정치">
+                    <img src="/static/image/menu.png" >
+                    <h3>정치</h3>
+                </a>
+                <a href="/webapp/page2/1/" title="경제">
+                    <img src="/static/image/menu.png">
+                    <h3>경제</h3>
+                </a>
+                <a href="/webapp/page2/2/"title="사회">
+                    <img src="/static/image/menu.png">
+                    <h3>사회</h3>
+                </a>
+                <a href="/webapp/page2/3/"title="생활/문화">
+                    <img src="/static/image/menu.png">
+                    <h3>생활/문화</h3>
+                </a>
+                <a href="/webapp/page2/4/"title="서계">
+                    <img src="/static/image/menu.png">
+                    <h3>세계</h3>
+                </a>
+                <a href="/webapp/page2/5/"title="IT/과학">
+                    <img src="/static/image/menu.png">
+                    <h3>IT/과학</h3>
+                </a>
+                <a>
+                    <img src="/static/image/menu.png"title="정정 기사">
+                    <h3>정정 기사</h3>
+                </a>
+            </div>
+            </div>
+        </aside>
+        </aside>
+    </aside>
+
+
     <main>
         {% for news in news_data %}
             {% if news.ranking|divisibleby:2 %}
-                <section class="news-item1" onclick="redirectToDatailpage()">
+                <section class="news-item1" onclick="redirectToDatailpage('{{ news.ranking }}', '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
                     <!--신문 이미지 처리 -->
                     {% if news.img_link == "0" %}
                         <img src="image/ex.png">
@@ -75,7 +123,7 @@
                         {% endif %}
                 </section>
             {% else %}
-                <section class="news-item2" onclick="redirectToDatailpage()">
+                <section class="news-item2" onclick="redirectToDatailpage('{{ news.ranking }}', '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
                     <!--화면에 보일 신문 정보-->
                     <div class= "styled-box">
                         <h1>{{ news.ranking }}. {{ news.keywords }}</h1> <!-- 여기서 .과 사이에 공백을 추가 -->
@@ -121,7 +169,7 @@
 
     <script type="text/javascript" src="static/js/navigation.js"></script>
     <script type="text/javascript" src="static/js/user.js"></script>
-    <script type="text/javascript" src="static/js/sidebar.js"></script>
+    <script src="static/js/sidebar.js"></script>
     <script type="text/javascript" src="static/js/str-btn.js"></script>
 </body>
 </html>
