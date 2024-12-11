@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="jB_YX0577xzL_weappsczuTVHHH0_GrIWOQv9whT1d8" />
@@ -9,9 +10,9 @@
 
     <style>
     *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
     body{
         text-align: center;
@@ -22,18 +23,19 @@
     }
     </style>
 
-    <link rel="stylesheet" href="static/css/header.css" />
-    <link rel="stylesheet" href="static/css/newsBox.css" />
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/newsBox.css' %}">
+    <script type="text/javascript" src="{% static 'js/navigation.js' %}"></script>
 
 </head>
 <body>
     <header>
         <!--홈페이지 상위 제목-->
         <h1>WEB PROGRAMMING</h1>
-        <hr class = "custom-hr">
+        <hr class="custom-hr">
 
         <!--트렌드 스코프 로고 이미지-->
-        <img src="/static/image/trandscopenews_LOGO.png" onclick="redirectToMainpage()">
+        <img src="{% static 'image/trandscopenews_LOGO.png' %}" onclick="redirectToMainpage()">
 
         <hr class="custom-hr2">
         <hr class="custom-hr3">
@@ -49,17 +51,17 @@
     <main>
         {% for news in news_data %}
             {% if forloop.first %}
-                <select class="detail-News">
+                <div class="detail-News">
                     <div><!--신문 이미지 처리 -->
                         {% if news.img_link == "0" %}
-                            <img src="image/ex.png" >
+                            <img src="{% static 'image/ex.png' %}">
                         {% else %}
-                            <img src="{{ news.img_link }}" >
+                            <img src="{{ news.img_link }}">
                         {% endif %}
                     </div>
                     <div> <!--화면에 보일 신문 정보-->
-                        <div class= "styled-box">
-                            <h1>{{ news.ranking }}. {{ news.keywords }}</h1> <!-- 여기서 .과 사이에 공백을 추가 -->
+                        <div class="styled-box">
+                            <h1>{{ news.ranking }}. {{ news.keywords }}</h1>
                             <p class="news-title">{{ news.title }}</p>
                             <hr class="custom-hr4">
                             <p>{{ news.text|truncatechars:150 }}</p>
@@ -68,7 +70,6 @@
                     <div> <!-- 관련 신문 링크-->
                         <h2>관련기사<hr></h2>
                         {% for news in news_link %}
-                            <!-- 뉴스 제목을 링크로 감싸기 -->
                             <a href="{{ news.link }}">
                                 {{ news.title }}
                             </a>
@@ -76,10 +77,10 @@
                         {% endfor %}
                     </div>
                     <!-- str btn -->
-                     <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                    <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
                         ★
                     </button>
-                </select>
+                </div>
             {% endif %}
         {% endfor %}
     </main>
