@@ -1,15 +1,15 @@
 
 /*userpage로 이동      */
 function redirectToUserPage() {
-
     window.location.href = "/userPage.html";
     }
-/* page1로 이동    */
-function redirectToPage1() {
-window.location.href = "page1.html";
+/* mainpage로 이동    */
+function redirectToMainpage() {
+    window.location.href = "/page1.html";
 }
-/* page2로 이동   */
-function redirectToPage3(ranking_id, keyword, title, content, link) {
+
+/* detailpage로 이동   */
+function redirectToDatailpage(ranking_id, keyword, title, content, link) {
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     // 최근 키워드 추가
