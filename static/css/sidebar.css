@@ -51,3 +51,11 @@
     display: flex;
     flex-wrap: nowrap;
 }
+
+
+@media (max-width: 720px) {
+    .maker-img{
+        flex-wrap: wrap;
+    }
+
+}
