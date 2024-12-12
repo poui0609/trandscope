@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="en">
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -24,18 +24,20 @@
     </style>
 
     <link rel="stylesheet" href="{% static 'css/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/newsBox.css' %}">
+    <link rel="stylesheet" href="{% static 'css/newsDetailBox.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css'%}">
     <script type="text/javascript" src="{% static 'js/navigation.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
 
 </head>
 <body>
     <header>
         <!--홈페이지 상위 제목-->
         <h1>WEB PROGRAMMING</h1>
-        <hr class = "custom-hr">
+        <hr class="custom-hr">
 
         <!--트렌드 스코프 로고 이미지-->
-        <img src="/static/image/trandscopenews_LOGO.png" onclick="redirectToMainpage()">
+        <img src="{% static 'image/trandscopenews_LOGO.png' %}" onclick="redirectToMainpage()">
 
         <hr class="custom-hr2">
         <hr class="custom-hr3">
@@ -48,39 +50,91 @@
         <hr class="custom-hr3">
         <hr class="custom-hr2">
     </header>
+    <!-- 사이드바-->
+    <aside id="side-bar" class="side-bar">
+        <aside class="side-bar-inner">
+            <span class="close-btn" onclick="closeSidebar()">×</span>
+            <img src="{%  static 'image/trendscope_logo.png' %}" onclick="redirectToMainpage()" style="margin: 6vh 0 1.5vh 0; width:80%; cursor: pointer">
+            <hr class="custom-hr2"> <!-- 구분선-->
+            <hr class="custom-hr3">
+            <img src="{% static 'image/newsthema.png' %}" style="margin: 1.5vh 0; width: 40%" >
+            <hr class="custom-hr2"> <!-- 구분선-->
+            <hr class="custom-hr3">
+            <div class="maker-img">
+                <img src="{% static '/image/ex.png' %}">
+                <div class="categories">
+                <a href="/webapp/page2/0/" title="정치">
+                    <img src="{% static '/image/menu.png' %}" >
+                    <h3>정치</h3>
+                </a>
+                <a href="/webapp/page2/1/" title="경제">
+                    <img src="{% static '/image/menu.png' %}" >
+                    <h3>경제</h3>
+                </a>
+                <a href="/webapp/page2/2/"title="사회">
+                    <img src="{% static '/image/menu.png' %}" >
+                    <h3>사회</h3>
+                </a>
+                <a href="/webapp/page2/3/"title="생활/문화">
+                    <img src="{% static '/image/menu.png' %}" >
+                    <h3>생활/문화</h3>
+                </a>
+                <a href="/webapp/page2/4/"title="서계">
+                    <img src="{% static '/image/menu.png' %}" >
+                    <h3>세계</h3>
+                </a>
+                <a href="/webapp/page2/5/"title="IT/과학">
+                    <img src="{% static '/image/menu.png' %}" >
+                    <h3>IT/과학</h3>
+                </a>
+                <a>
+                    <img src="{%  static '/image/menu.png' %}" title="정정 기사">
+                    <h3>정정 기사</h3>
+                </a>
+            </div>
+            </div>
+        </aside>
+        </aside>
+    </aside>
     <main>
         {% for news in news_data %}
             {% if forloop.first %}
-                <div class="detail-News">
-                    <div><!--신문 이미지 처리 -->
+                <div class="news-box-detail">
+                    <!--신문 이미지 처리 -->
+                    <div class="news-box-img">
                         {% if news.img_link == "0" %}
                             <img src="{% static 'image/ex.png' %}">
                         {% else %}
                             <img src="{{ news.img_link }}">
                         {% endif %}
                     </div>
-                    <div> <!--화면에 보일 신문 정보-->
-                        <div class="styled-box">
-                            <h1>{{ news.ranking }}. {{ news.keywords }}</h1>
-                            <p class="news-title">{{ news.title }}</p>
-                            <hr class="custom-hr4">
-                            <p>{{ news.text|truncatechars:150 }}</p>
+                    <div class="news-box-info">
+                        <!--화면에 보일 신문 소제목-->
+                        <h1>{{ news.ranking }}. {{ news.keywords }}</h1>
+                        <p class="news-title">{{ news.title }}</p>
+                        <hr class="custom-hr4">
+                        <p class="news-detail">{{ news.text|truncatechars:150 }}</p>
+
+                        <!-- 관련 신문 링크-->
+                        <div class="news-links">
+                            <h2>관련기사<hr style="margin-top: 2vh"></h2>
+                            {% for news in news_link %}
+                                <a href="{{ news.link }}">
+                                    {{ news.title }}
+                                </a>
+                                <br>
+                            {% endfor %}
                         </div>
                     </div>
-                    <div> <!-- 관련 신문 링크-->
-                        <h2>관련기사<hr></h2>
-                        {% for news in news_link %}
-                            <a href="{{ news.link }}">
-                                {{ news.title }}
-                            </a>
-                            <br>
-                        {% endfor %}
-                    </div>
-                    <!-- str btn -->
-                    <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
-                        ★
-                    </button>
                 </div>
+
+                </div>
+                <!-- 신문 요약을 표함하기-->
+                <!-- str btn -->
+                <button class="star-btn" data-keyword="{{ news.keywords|escapejs }}" onclick="toggleStar(this, '{{ news.keywords|escapejs }}', '{{ news.title|escapejs }}', '{{ news.text|escapejs }}', '{{ news.link|escapejs }}')">
+                    ★
+                </button>
+
             {% endif %}
         {% endfor %}
     </main>

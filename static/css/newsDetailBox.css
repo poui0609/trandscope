@@ -1,0 +1,62 @@
+.news-box-detail{
+    display: flex;
+    position: relative;
+    margin: 2.5vh;
+    justify-content: space-between;
+    background-color: #c4dce8;
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+}
+.styled-box-inner{
+    margin: 4%;
+}
+.news-box-img { /*신문 대표 이미지*/
+    object-fit: contain;
+    flex: 2;
+    margin: 2% 2% 0% 3%;
+}
+.news-box-info { /* 제목, 소제목, 링크 전체 박스       */
+    flex: 5;
+    margin:2% 3%;
+}
+.news-links{ /* 뉴스 링크*/
+    margin-top: 3vh;
+    text-align: left;
+}
+.news-links a { /*링크 제목*/
+    line-height: 4vh;
+}
+.news-links h2{
+    text-align: center;
+    margin-bottom: 1vh;
+}
+.news-box-detail .news-box-info .news-title{ /* 제목  newsBox -> .styled-box .news-title{  */
+    font-size: 30px;
+    text-align: left;
+    font-weight: bold;
+    line-height: 3rem;
+}
+.news-box-detail .news-box-info .news-detail{/* 본문  newsBox -> .styled-box p{  */
+    margin-bottom: 2%;
+    text-align: left;
+    position: relative;
+    font-size: 18px ;
+    line-height: 1.5;
+    color: #555;
+    white-space: pre-wrap;
+    text-align: left;
+    line-height: 2rem;
+
+}
+.news-box-detail .news-box-info h1 { /* 제목 박스  */
+    position: relative;
+    font-size: 30px;
+    margin-bottom: 2vh;
+    padding: 1vh;
+    /* 배경 박스 설정 */
+    background-color: #ffffff;
+    transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+    border-radius: 10px;
+
+}
