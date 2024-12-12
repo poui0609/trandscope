@@ -185,29 +185,6 @@ def signup_view(request):
     return render(request, 'webapp/userpage.html', {'form': form})
 
 
-def page3(request, ranking_id):
-    news_data = MainNews.objects.filter(ranking=ranking_id).order_by('ranking')
-
-    grouped_rank_data = []
-    for key, group in groupby(news_data, key=lambda x: x.ranking):
-        group_list = list(group)
-        if all(item.img_link == '0' for item in group_list):
-            grouped_rank_data.append(group_list[0])
-        else:
-            for item in group_list:
-                if item.img_link != '0':
-                    grouped_rank_data.append(item)
-                    break
-
-    now = timezone.now()
-    context = {
-        'current_date': now.strftime("%A, %B %d"),
-        'news_data': grouped_rank_data,
-    }
-
-    return render(request, 'webapp/page3.html', context)
-
-
 @login_required
 def add_favorite_keyword(request):
     if request.method == 'POST':
